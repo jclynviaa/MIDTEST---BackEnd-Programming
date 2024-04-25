@@ -40,7 +40,7 @@ async function getUsers(page_n, page_s, sort, search) {
     total_pages: t_pages,
     has_previous_page: has_p_page,
     has_next_page: has_n_page,
-    data: data,
+    data: results,
   };
 }
 

@@ -1,5 +1,5 @@
-const { User } = require('../../../models');
 const { split } = require('lodash');
+const { User } = require('../../../models');
 
 /**
  * Get a list of users
