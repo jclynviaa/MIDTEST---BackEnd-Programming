@@ -24,7 +24,7 @@ async function getUsers(page_n, page_s, sort, search) {
   }
 
   return {
-    page_number: page_n + 1,
+    page_number: page_n + 1, // +1 karena index dimulai dari 0 sedangkan nomor halaman dimulai dari 1
     page_size: page_s,
     count: count,
     total_pages: t_pages,

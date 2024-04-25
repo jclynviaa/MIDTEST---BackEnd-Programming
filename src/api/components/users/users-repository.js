@@ -1,11 +1,62 @@
 const { User } = require('../../../models');
+const { split } = require('lodash');
 
 /**
  * Get a list of users
  * @returns {Promise}
  */
-async function getUsers() {
-  return User.find({});
+async function getUsers(page_n, page_s, sort, search) {
+  const search1 = search.split(':');
+  const search2 = search1[1];
+
+  sort = sort.split(':');
+  const sortBy = {};
+  sortBy[sort[0]] = sort[1];
+
+  let query = {};
+  switch (search1[0]) {
+    case 'name':
+      query = { name: { $regex: search2 } };
+      break;
+
+    case 'email':
+      query = { email: { $regex: search2 } };
+      break;
+
+    default:
+      query = {};
+      break;
+  }
+
+  const users = await User.find(query)
+    .sort(sortBy)
+    .skip(page_n * page_s)
+    .limit(page_s);
+
+  return users;
+}
+
+async function countUsers(search) {
+  const search1 = search.split(':');
+  const search2 = search1[1];
+
+  let query = {};
+  switch (search1[0]) {
+    case 'name':
+      query = { name: { $regex: search2 } };
+      break;
+
+    case 'email':
+      query = { email: { $regex: search2 } };
+      break;
+
+    default:
+      query = {};
+      break;
+  }
+
+  const count = await User.countDocuments(query);
+  return count;
 }
 
 /**
@@ -89,4 +140,5 @@ module.exports = {
   deleteUser,
   getUserByEmail,
   changePassword,
+  countUsers,
 };
