@@ -9,9 +9,9 @@ async function getUsers(page_n, page_s, sort, search) {
   const search1 = search.split(':');
   const search2 = search1[1];
 
-  sort = sort.split(':');
-  const sortBy = {};
-  sortBy[sort[0]] = sort[1];
+  const sortS = sort.split(':');
+  const sortBy = sortS[0];
+  const sortOrder = sortS[1] || 'asc';
 
   let query = {};
   switch (search1[0]) {
@@ -29,7 +29,7 @@ async function getUsers(page_n, page_s, sort, search) {
   }
 
   const users = await User.find(query)
-    .sort(sortBy)
+    .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 })
     .skip(page_n * page_s)
     .limit(page_s);
 
