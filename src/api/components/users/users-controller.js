@@ -16,35 +16,22 @@ const { errorResponder, errorTypes } = require('../../../core/errors');
 async function getUsers(request, response, next) {
   try {
     // pagination, sorting, search
-    const page_n = parseInt(req.query.page_number) || 1;
+    const page_n = parseInt(req.query.page_number) - 1 || 0;
     const page_s = parseInt(req.query.page_size) || 10;
-    const search = req.query.search;
+    const search = req.query.search || '';
     const sort = req.query.sort || 'email : asc';
 
     // data users
-    const { users, count } = await usersService.getUsers(
-      page_n,
-      page_s,
-      search,
-      sort
-    );
+    const users = await usersService.getUsers(page_n, page_s, search, sort);
 
-    // jumlah data yang dimunculkan
-    const t_pages = Math.ceil(count / page_n);
+    if (!users) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to get List Users'
+      );
+    }
 
-    // menunjukkan apakah ada halaman sebelumnya/selanjutnya
-    const has_p_page = page_n > 1;
-    const has_n_page = page_n < t_pages;
-
-    return response.status(200).json({
-      page_number: page_n,
-      page_size: page_s,
-      count,
-      total_pages: t_pages,
-      has_previous_page: has_p_page,
-      has_next_page: has_n_page,
-      data: users,
-    });
+    return response.status(200).json(users);
   } catch (error) {
     return next(error);
   }
