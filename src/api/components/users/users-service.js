@@ -10,8 +10,18 @@ async function getUsers(page_n, page_s, sort, search) {
 
   const count = await usersRepository.countUsers(search);
   const t_pages = Math.ceil(count / page_s);
-  const has_p_page = page_n > 0;
-  const has_n_page = page_n + 1 < t_pages;
+
+  if (page_n > 0) {
+    has_p_page = true;
+  } else {
+    has_p_page = false;
+  }
+
+  if (page_n + 1 < t_pages) {
+    has_n_page = true;
+  } else {
+    has_n_page = false;
+  }
 
   const results = [];
   for (let i = 0; i < users.length; i += 1) {

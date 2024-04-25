@@ -16,8 +16,8 @@ const { errorResponder, errorTypes } = require('../../../core/errors');
 async function getUsers(request, response, next) {
   try {
     // pagination, sorting, search
-    const page_n = parseInt(req.query.page_number) - 1 || 0;
-    const page_s = parseInt(req.query.page_size) || 10;
+    const page_n = parseInt(request.query.page_number) - 1 || 0;
+    const page_s = parseInt(request.query.page_size) || 10;
     const search = req.query.search || '';
     const sort = req.query.sort || 'email : asc';
 
