@@ -25,8 +25,8 @@ async function getUsers(request, response, next) {
     const { users, count } = await usersService.getUsers(
       page_n,
       page_s,
-      sort,
-      search
+      search,
+      sort
     );
 
     // jumlah data yang dimunculkan
