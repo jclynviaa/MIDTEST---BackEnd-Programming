@@ -7,10 +7,6 @@ const { errorResponder, errorTypes } = require('../../../core/errors');
  * @param {object} response - Express response object
  * @param {object} next - Express route middlewares
  * @returns {object} Response object or pass an error to the next route
- * @param {integer} page_number - Nomor halaman yang ditampilkan
- * @param {integer} page_size - Jumlah data yang dimunculkan per halaman
- * @param {string} search - Mencari kata kunci
- * @param {string} sort - Urutan pengurutan (asc)
  *
  */
 async function getUsers(request, response, next) {
@@ -18,8 +14,8 @@ async function getUsers(request, response, next) {
     // pagination, sorting, search
     const page_n = parseInt(request.query.page_number) - 1 || 0;
     const page_s = parseInt(request.query.page_size) || 10;
-    const search = req.query.search || '';
-    const sort = req.query.sort || 'email : asc';
+    const search = request.query.search || '';
+    const sort = request.query.sort || 'email : asc';
 
     // data users
     const users = await usersService.getUsers(page_n, page_s, search, sort);
