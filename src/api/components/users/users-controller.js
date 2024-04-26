@@ -15,9 +15,10 @@ async function getUsers(request, response, next) {
     const page_n = parseInt(request.query.page_number) - 1 || 0;
     const page_s = parseInt(request.query.page_size) || 10;
     const search = request.query.search || '';
+    const sort = request.query.sort || 'email:asc';
 
     // data users
-    const users = await usersService.getUsers(page_n, page_s, search);
+    const users = await usersService.getUsers(page_n, page_s, search, sort);
 
     if (!users) {
       throw errorResponder(
