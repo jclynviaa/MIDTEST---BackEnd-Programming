@@ -6,15 +6,15 @@ const { User } = require('../../../models');
  */
 async function getUsers(page_n, page_s, search, sort) {
   let query = {};
-  var search = search.split(':');
+  var search1 = search.split(':');
 
-  switch (search[0]) {
+  switch (search1[0]) {
     case 'name':
-      query = { name: { $regex: search[1] } };
+      query = { name: { $regex: search1[1] } };
       break;
 
     case 'email':
-      query = { email: { $regex: search[1] } };
+      query = { email: { $regex: search1[1] } };
       break;
 
     default:
@@ -34,24 +34,24 @@ async function getUsers(page_n, page_s, search, sort) {
   return User.find({ users });
 }
 
-async function getUserCount({}) {
+async function getUserCount(search) {
   let query = {};
-  var search = search.split(':');
+  var search1 = search.split(':');
 
-  switch (search[0]) {
+  switch (search1[0]) {
     case 'name':
-      query = { name: { $regex: search[1] } };
+      query = { name: { $regex: search1[1] } };
       break;
 
     case 'email':
-      query = { email: { $regex: search[1] } };
+      query = { email: { $regex: search1[1] } };
       break;
 
     default:
       query = {};
       break;
   }
-  const count = User.countDocuments(query);
+  const count = await User.countDocuments(query);
   return count;
 }
 
