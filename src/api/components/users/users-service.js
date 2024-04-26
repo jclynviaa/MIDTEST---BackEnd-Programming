@@ -5,8 +5,8 @@ const { hashPassword, passwordMatched } = require('../../../utils/password');
  * Get list of users
  * @returns {Array}
  */
-async function getUsers(page_n, page_s, search) {
-  const users = await usersRepository.getUsers(page_n, page_s, search);
+async function getUsers(page_n, page_s, search, sort) {
+  const users = await usersRepository.getUsers(page_n, page_s, search, sort);
   const count = await usersRepository.getUserCount(page_n, page_s, search);
 
   const t_pages = Math.ceil(count / page_s);
