@@ -8,24 +8,24 @@ const { User } = require('../../../models');
 async function getUsers(page_n, page_s, search, sort) {
   const search1 = search.split(':');
 
-  sort = sort.split(':');
-  const sortBy = {};
-  sortBy[sort[0]] = sort[1];
-
   let query = {};
   switch (search1[0]) {
     case 'name':
-      query = { name: { $regex: [1] } };
+      query = { name: { $regex: search1[1] } };
       break;
 
     case 'email':
-      query = { email: { $regex: [1] } };
+      query = { email: { $regex: search1[1] } };
       break;
 
     default:
       query = {};
       break;
   }
+
+  sort = sort.split(':');
+  const sortBy = {};
+  sortBy[sort[0]] = sort[1];
 
   const users = await User.find(query)
     .sort(sortBy)
@@ -41,11 +41,11 @@ async function getUserCount({}) {
   let query = {};
   switch (search1[0]) {
     case 'name':
-      query = { name: { $regex: [1] } };
+      query = { name: { $regex: search1[1] } };
       break;
 
     case 'email':
-      query = { email: { $regex: [1] } };
+      query = { email: { $regex: search1[1] } };
       break;
 
     default:
