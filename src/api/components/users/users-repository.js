@@ -22,14 +22,14 @@ async function getUsers(page_n, page_s, search, sort) {
       break;
   }
 
+  let sortBy = {};
   sort = sort.split(':');
-  const sortBy = {};
   sortBy[sort[0]] = sort[1];
 
   const users = await User.find(query)
-    .sort(sortBy)
     .skip(page_n * page_s)
-    .limit(page_s);
+    .limit(page_s)
+    .sort(sortBy);
 
   return users;
 }
