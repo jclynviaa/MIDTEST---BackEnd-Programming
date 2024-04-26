@@ -1,3 +1,4 @@
+const { split } = require('lodash');
 const { User } = require('../../../models');
 
 /**
@@ -6,8 +7,6 @@ const { User } = require('../../../models');
  */
 async function getUsers(page_n, page_s, search, sort) {
   const search1 = search.split(':');
-  const search2 = search1[1];
-  console.log(search1[1]);
 
   sort = sort.split(':');
   const sortBy = {};
@@ -16,11 +15,11 @@ async function getUsers(page_n, page_s, search, sort) {
   let query = {};
   switch (search1[0]) {
     case 'name':
-      query = { name: { $regex: search2 } };
+      query = { name: { $regex: [1] } };
       break;
 
     case 'email':
-      query = { email: { $regex: search2 } };
+      query = { email: { $regex: [1] } };
       break;
 
     default:
@@ -38,16 +37,15 @@ async function getUsers(page_n, page_s, search, sort) {
 
 async function getUserCount({}) {
   const search1 = search.split(':');
-  const search2 = search1[1];
 
   let query = {};
   switch (search1[0]) {
     case 'name':
-      query = { name: { $regex: search2 } };
+      query = { name: { $regex: [1] } };
       break;
 
     case 'email':
-      query = { email: { $regex: search2 } };
+      query = { email: { $regex: [1] } };
       break;
 
     default:
