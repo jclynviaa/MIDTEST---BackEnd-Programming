@@ -5,10 +5,13 @@ const { User } = require('../../../models');
  * @returns {Promise}
  */
 async function getUsers(page_n, page_s) {
-  return users;
+  return User.find({});
 }
 
-async function getUserCount(search) {}
+async function getUserCount() {
+  const count = User.countDocuments({});
+  return count;
+}
 
 /**
  * Get user detail
