@@ -16,7 +16,7 @@ async function getUsers(request, response, next) {
     const page_s = parseInt(request.query.page_size) || 10;
 
     // data users
-    const users = await usersService.getUsers(page_n, page_s, search, sort);
+    const users = await usersService.getUsers(page_n, page_s);
 
     if (!users) {
       throw errorResponder(

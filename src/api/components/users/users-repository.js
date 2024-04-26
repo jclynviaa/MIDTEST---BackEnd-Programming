@@ -8,8 +8,8 @@ async function getUsers(page_n, page_s) {
   return User.find({});
 }
 
-async function getUserCount() {
-  const count = User.countDocuments({});
+async function getUserCount({}) {
+  const count = User.countDocuments();
   return count;
 }
 
