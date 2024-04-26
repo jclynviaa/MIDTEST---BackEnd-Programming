@@ -35,6 +35,8 @@ async function getUsers(page_n, page_s, search, sort) {
 }
 
 async function getUserCount(search) {
+  if (!search) return 0;
+
   let query = {};
   var search1 = search.split(':');
 
