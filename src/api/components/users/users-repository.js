@@ -4,7 +4,7 @@ const { User } = require('../../../models');
  * Get a list of users
  * @returns {Promise}
  */
-async function getUsers(page_n, page_s, search, sort) {
+async function getUsers(page_n, page_s, search) {
   let query = {};
   var search1 = search.split(':');
 
@@ -22,14 +22,9 @@ async function getUsers(page_n, page_s, search, sort) {
       break;
   }
 
-  let sortBy = {};
-  sort = sort.split(':');
-  sortBy[sort[0]] = sort[1];
-
   const users = await User.find(query)
     .skip(page_n * page_s)
-    .limit(page_s)
-    .sort(sortBy);
+    .limit(page_s);
 
   return users;
 }
