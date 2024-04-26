@@ -31,12 +31,10 @@ async function getUsers(page_n, page_s, search, sort) {
     .skip(page_n * page_s)
     .limit(page_s);
 
-  return User.find({ users });
+  return users;
 }
 
-async function getUserCount(search) {
-  if (!search) return 0;
-
+async function getUserCount(page_n, page_s, search) {
   let query = {};
   var search1 = search.split(':');
 
