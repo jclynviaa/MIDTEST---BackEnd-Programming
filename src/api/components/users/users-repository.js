@@ -8,10 +8,11 @@ const { User } = require('../../../models');
 async function getUsers(page_n, page_s, sort, search) {
   const search1 = search.split(':');
   const search2 = search1[1];
+  console.log(search1[1]);
 
-  const sortS = sort.split(':');
-  const sortBy = sortS[0];
-  const sortOrder = sortS[1] || 'asc';
+  sort = sort.split(':');
+  const sortBy = {};
+  sortBy[sort[0]] = sort[1];
 
   let query = {};
   switch (search1[0]) {
@@ -29,14 +30,14 @@ async function getUsers(page_n, page_s, sort, search) {
   }
 
   const users = await User.find(query)
-    .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 })
+    .sort(sortBy)
     .skip(page_n * page_s)
     .limit(page_s);
 
   return users;
 }
 
-async function countUsers(search) {
+async function getUserCount(search) {
   const search1 = search.split(':');
   const search2 = search1[1];
 
@@ -55,7 +56,7 @@ async function countUsers(search) {
       break;
   }
 
-  const count = await User.countDocuments(query);
+  const count = User.countDocuments(query);
   return count;
 }
 
@@ -140,5 +141,5 @@ module.exports = {
   deleteUser,
   getUserByEmail,
   changePassword,
-  countUsers,
+  getUserCount,
 };
