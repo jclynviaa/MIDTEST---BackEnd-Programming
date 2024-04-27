@@ -9,13 +9,25 @@ async function getUserByEmail(email) {
   return User.findOne({ email });
 }
 
+/**
+ * update failed login attempts
+ * @param {string} email
+ */
 async function login_attempts1(email) {
   const timeout = await Timeout.findOne({ email });
 
   if (!timeout) {
-    await Timeout.create({ email }, { $inc: { attempts: 1 } });
+    await Timeout.create({ email, attempts: 1 });
+  } else {
+    await Timeout.updateOne({ email }, { $inc: { attempts: 1 } });
   }
 }
+
+/**
+ * get the number of failed login attempts
+ * @param {string} email
+ * @returns
+ */
 
 async function get_login_attempts(email) {
   const timeout = await Timeout.findOne({ email });
@@ -27,6 +39,10 @@ async function get_login_attempts(email) {
   return timeout.attempts;
 }
 
+/**
+ * reset failed login attempts
+ * @param {string} email
+ */
 async function reset_login_attempts(email) {
   await Timeout.deleteOne({ email });
 }
