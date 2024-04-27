@@ -23,7 +23,7 @@ async function checkLoginCredentials(email, password) {
   // login attempt as successful when the `user` is found (by email) and
   // the password matches.
   if (user && passwordChecked) {
-    await authenticationRepository.reset_login_attempts(email);
+    await authenticationRepository.reset_failed_login_attempts(email);
 
     return {
       email: user.email,
@@ -32,7 +32,9 @@ async function checkLoginCredentials(email, password) {
       token: generateToken(user.email, user.id),
     };
   } else {
-    const attempts = await authenticationRepository.get_login_attempts(email);
+    await authenticationRepository.update_failed_login_attempts(email);
+    const attempts =
+      await authenticationRepository.get_failed_login_attempts(email);
     if (attempts >= 5) {
       throw errorResponder(
         errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS,
