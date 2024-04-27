@@ -1,7 +1,7 @@
 const authenticationRepository = require('./authentication-repository');
 const { generateToken } = require('../../../utils/session-token');
 const { passwordMatched } = require('../../../utils/password');
-const { errorTypes } = require('../../../core/errors');
+const { errorTypes, errorResponder } = require('../../../core/errors');
 
 /**
  * Check username and password for login.
@@ -23,14 +23,24 @@ async function checkLoginCredentials(email, password) {
   // login attempt as successful when the `user` is found (by email) and
   // the password matches.
   if (user && passwordChecked) {
+    await authenticationRepository.reset_login_attempts(email);
+
     return {
       email: user.email,
       name: user.name,
       user_id: user.id,
       token: generateToken(user.email, user.id),
     };
+  } else {
+    const attempts = await authenticationRepository.login_attempts1(email);
+    if (attempts >= 5) {
+      throw errorResponder(
+        errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS,
+        'Too many failed login attempts'
+      );
+    }
+    return null;
   }
-  return null;
 }
 
 module.exports = {
