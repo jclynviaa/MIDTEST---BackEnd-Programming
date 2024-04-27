@@ -1,4 +1,5 @@
 const { User, Timeout } = require('../../../models');
+const login_timeout = 30 * 60 * 1000;
 
 /**
  * Get user by email for login information
@@ -13,13 +14,15 @@ async function getUserByEmail(email) {
  * update failed login attempts
  * @param {string} email
  */
-async function login_attempts1(email) {
-  const timeout = await Timeout.findOne({ email });
+async function update_failed_login_attempts(email) {
+  const timeout = await Timeout.findOneAndUpdate(
+    { email },
+    { $inc: { attempts: 1 }, last_attempt: Date.now() },
+    { upsert: true, new: true }
+  );
 
-  if (!timeout) {
-    await Timeout.create({ email, attempts: 1 });
-  } else {
-    await Timeout.updateOne({ email }, { $inc: { attempts: 1 } });
+  if (!timeout || Date.now() - timeout.last_attempt > login_timeout) {
+    await reset_failed_login_attempts(email);
   }
 }
 
@@ -29,27 +32,26 @@ async function login_attempts1(email) {
  * @returns
  */
 
-async function get_login_attempts(email) {
+async function get_failed_login_attempts(email) {
   const timeout = await Timeout.findOne({ email });
-
-  if (!timeout) {
-    return 0;
-  }
-
-  return timeout.attempts;
+  return timeout ? timeout.attempts : 0;
 }
 
 /**
  * reset failed login attempts
  * @param {string} email
  */
-async function reset_login_attempts(email) {
-  await Timeout.deleteOne({ email });
+async function reset_failed_login_attempts(email) {
+  await Timeout.findOneAndUpdate(
+    { email },
+    { attempts: 0, last_attempt: null },
+    { upsert: true }
+  );
 }
 
 module.exports = {
   getUserByEmail,
-  login_attempts1,
-  get_login_attempts,
-  reset_login_attempts,
+  update_failed_login_attempts,
+  get_failed_login_attempts,
+  reset_failed_login_attempts,
 };
