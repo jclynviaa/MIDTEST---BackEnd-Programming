@@ -19,22 +19,15 @@ async function login(request, response, next) {
     );
 
     if (!loginSuccess) {
-      throw errorResponder(
-        errorTypes.INVALID_CREDENTIALS,
-        'Wrong email or password'
-      );
+      const attempts =
+        await authenticationRepository.get_failed_login_attempts(email);
+      const message =
+        'Wrong email or password, failed to login, attempt: $(attempts)';
+      throw errorResponder(errorTypes.INVALID_CREDENTIALS, message);
     }
 
     return response.status(200).json(loginSuccess);
   } catch (error) {
-    if (error.type === errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS) {
-      return response.status(403).json({
-        statusCode: 403,
-        error: 'TOO_MANY_FAILED_LOGIN_ATTEMPTS',
-        description: 'Too many failed login attempts',
-        message: 'Too many failed login attempts',
-      });
-    }
     return next(error);
   }
 }
