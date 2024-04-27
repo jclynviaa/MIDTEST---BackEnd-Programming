@@ -27,8 +27,13 @@ async function login(request, response, next) {
 
     return response.status(200).json(loginSuccess);
   } catch (error) {
-    if (error.type === errorTypes.TOO_MANT_LOGIN_ATTEMPTS) {
-      return next(error);
+    if (error.type === errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS) {
+      return response.status(403).json({
+        statusCode: 403,
+        error: 'TOO_MANY_FAILED_LOGIN_ATTEMPTS',
+        description: 'Too many failed login attempts',
+        message: 'Too many failed login attempts',
+      });
     }
     return next(error);
   }
