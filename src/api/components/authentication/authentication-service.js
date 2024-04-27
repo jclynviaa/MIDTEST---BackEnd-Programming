@@ -51,6 +51,11 @@ async function checkLoginCredentials(email, password) {
   }
 }
 
+async function resetfailed_login_attempts(email) {
+  if (failed_login_attempts[email]) delete failed_login_attempts[email];
+}
+
 module.exports = {
   checkLoginCredentials,
+  resetfailed_login_attempts,
 };
