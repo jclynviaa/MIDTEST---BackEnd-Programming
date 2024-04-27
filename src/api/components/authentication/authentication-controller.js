@@ -28,7 +28,7 @@ async function login(request, response, next) {
     return response.status(200).json(loginSuccess);
   } catch (error) {
     if (error.type === errorTypes.TOO_MANT_LOGIN_ATTEMPTS) {
-      authenticationServices.resetfailed_login_attempts(email);
+      return next(error);
     }
     return next(error);
   }

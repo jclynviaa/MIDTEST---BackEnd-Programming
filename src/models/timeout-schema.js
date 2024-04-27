@@ -1,6 +1,8 @@
-const timeoutSchema = {
+const mongoose = require('mongoose');
+
+const timeoutSchema = new mongoose.Schema({
   email: String,
-  timeout: String,
-};
+  attempts: { type: Number, default: 0 },
+});
 
 module.exports = timeoutSchema;
