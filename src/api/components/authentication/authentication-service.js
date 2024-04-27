@@ -32,7 +32,7 @@ async function checkLoginCredentials(email, password) {
       token: generateToken(user.email, user.id),
     };
   } else {
-    const attempts = await authenticationRepository.login_attempts1(email);
+    const attempts = await authenticationRepository.get_login_attempts(email);
     if (attempts >= 5) {
       throw errorResponder(
         errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS,
