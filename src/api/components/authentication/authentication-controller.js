@@ -1,5 +1,6 @@
 const { errorResponder, errorTypes } = require('../../../core/errors');
 const authenticationServices = require('./authentication-service');
+const authenticationRepository = require('./authentication-repository');
 
 /**
  * Handle login request
@@ -21,8 +22,7 @@ async function login(request, response, next) {
     if (!loginSuccess) {
       const attempts =
         await authenticationRepository.get_failed_login_attempts(email);
-      const message =
-        'Wrong email or password, failed to login, attempt: $(attempts)';
+      const message = `Wrong email or password, failed to login, attempt: $(attempts)`;
       throw errorResponder(errorTypes.INVALID_CREDENTIALS, message);
     }
 
