@@ -21,7 +21,7 @@ async function update_failed_login_attempts(email) {
     { upsert: true, new: true }
   );
 
-  if (Date.now() - timeout.last_attempt > login_timeout) {
+  if (timeout && Date.now() - timeout.last_attempt > 2 * 60 * 1000) {
     await reset_failed_login_attempts(email);
   }
 }

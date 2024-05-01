@@ -41,8 +41,8 @@ async function checkLoginCredentials(email, password) {
         'Too many failed login attempts, try again in 30 minutes'
       );
     }
+    return null;
   }
-  return null;
 }
 
 module.exports = {
