@@ -34,6 +34,10 @@ async function update_failed_login_attempts(email) {
 
 async function get_failed_login_attempts(email) {
   const timeout = await Timeout.findOne({ email });
+  if (timeout && Date.now() - timeout.last_attempt > login_timeout) {
+    await reset_failed_login_attempts(email);
+    return 0;
+  }
   return timeout ? timeout.attempts : 0;
 }
 
