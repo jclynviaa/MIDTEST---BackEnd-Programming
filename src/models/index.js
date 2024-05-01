@@ -4,6 +4,7 @@ const logger = require('../core/logger')('app');
 
 const usersSchema = require('./users-schema');
 const timeoutSchema = require('./timeout-schema');
+const accountsSchema = require('./account-schema');
 
 mongoose.connect(`${config.database.connection}/${config.database.name}`, {
   useNewUrlParser: true,
@@ -16,9 +17,11 @@ db.once('open', () => {
 
 const User = mongoose.model('users', mongoose.Schema(usersSchema));
 const Timeout = mongoose.model('timeout', timeoutSchema);
+const Account = mongoose.model('accounts', mongoose.Schema(accountsSchema));
 
 module.exports = {
   mongoose,
   User,
   Timeout,
+  Account,
 };
