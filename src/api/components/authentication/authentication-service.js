@@ -38,7 +38,7 @@ async function checkLoginCredentials(email, password) {
     if (attempts >= 5) {
       throw errorResponder(
         errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS,
-        'Too many failed login attempts'
+        'Too many failed login attempts, try again in 30 minutes'
       );
     }
     return null;

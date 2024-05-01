@@ -26,7 +26,9 @@ async function login(request, response, next) {
       throw errorResponder(errorTypes.INVALID_CREDENTIALS, message);
     }
 
-    return response.status(200).json(loginSuccess);
+    return response
+      .status(200)
+      .json({ message: `User ${email} berhasil login` });
   } catch (error) {
     return next(error);
   }
