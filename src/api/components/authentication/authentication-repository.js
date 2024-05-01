@@ -1,5 +1,5 @@
 const { User, Timeout } = require('../../../models');
-const login_timeout = 30 * 60 * 1000;
+const login_timeout = 2 * 60 * 1000;
 
 /**
  * Get user by email for login information
