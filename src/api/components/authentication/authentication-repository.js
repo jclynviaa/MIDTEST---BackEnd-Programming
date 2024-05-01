@@ -1,5 +1,5 @@
 const { User, Timeout } = require('../../../models');
-const login_timeout = 2 * 60 * 1000;
+const login_timeout = 30 * 60 * 1000;
 
 /**
  * Get user by email for login information
@@ -21,7 +21,7 @@ async function update_failed_login_attempts(email) {
     { upsert: true, new: true }
   );
 
-  if (timeout && Date.now() - timeout.last_attempt > 2 * 60 * 1000) {
+  if (timeout && Date.now() - timeout.last_attempt > login_timeout) {
     await reset_failed_login_attempts(email);
   }
 }
