@@ -50,6 +50,15 @@ async function get_account_by_id(customer_id) {
 }
 
 /**
+ * 
+ * @param {*} email 
+ * @returns 
+ */
+async function get_account_by_email(email) {
+  return Account.findOne({ email });
+}
+
+/**
  * Get list of customers
  * @param {*}
  * @returns
@@ -133,6 +142,8 @@ module.exports = {
   create_account,
   get_account_by_number,
   get_customers,
+  get_account_by_email,
+  get_account_by_id,
   update_account,
   update_transaction,
   delete_account,

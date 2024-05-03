@@ -15,6 +15,7 @@ module.exports = {
         .required()
         .label('Contact Number'),
       customer_birthdate: joi.string().required().label('Birth Date'),
+      email: joi.string().email().required().label('Email'),
       initial_deposit: joi.number().required().label('Initial Deposit'),
       pin: joiPassword
         .string()
@@ -45,6 +46,7 @@ module.exports = {
         .required()
         .label('Contact Number'),
       customer_birthdate: joi.string().required().label('Birth Date'),
+      email: joi.string().email().required().label('Email'),
     },
   },
 

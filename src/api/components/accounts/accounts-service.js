@@ -18,6 +18,7 @@ async function create_account(
   customer_address,
   customer_birthdate,
   customer_contact,
+  email,
   initial_deposit,
   pin
 ) {
@@ -32,6 +33,7 @@ async function create_account(
       customer_address,
       customer_birthdate,
       customer_contact,
+      email,
       account_balance: initial_deposit,
       pin,
     });
@@ -85,6 +87,7 @@ async function get_customers() {
  * @param {*} customer_address
  * @param {*} customer_birthdate
  * @param {*} customer_contact
+ * @param {*} email
  * @param {*} initial_deposit
  * @returns
  */
@@ -94,6 +97,7 @@ async function update_account(
   customer_address,
   customer_birthdate,
   customer_contact,
+  email,
   initial_deposit
 ) {
   const account = await accountsRepository.get_account_by_number(id);
@@ -114,6 +118,7 @@ async function update_account(
           customer_address,
           customer_birthdate,
           customer_contact,
+          email,
           initial_deposit,
         },
       }
@@ -173,6 +178,21 @@ async function delete_transactions(transaction_id) {
   return Account.findOne({ transaction_id });
 }
 
+/**
+ *
+ * @param {*} email
+ * @returns
+ */
+async function email_is_registered(email) {
+  const user = await usersRepository.get_account_by_email(email);
+
+  if (user) {
+    return true;
+  }
+
+  return false;
+}
+
 async function customer_id_is_taken(customer_id) {
   const account = await accountsRepository.get_account_by_id(customer_id);
 
@@ -202,5 +222,6 @@ module.exports = {
   delete_account,
   delete_transactions,
   customer_id_is_taken,
+  email_is_registered,
   change_pin,
 };
