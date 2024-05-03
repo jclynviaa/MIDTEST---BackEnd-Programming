@@ -119,8 +119,40 @@ async function update_transaction(request, response, next) {
   }
 }
 
-async function delete_account(request, response, next) {}
-async function delete_transactions(request, response, next) {}
+async function delete_account(request, response, next) {
+  try {
+    const id = request.params.id;
+
+    const success = await usersService.delete_account(id);
+    if (!success) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to delete user'
+      );
+    }
+
+    return response.status(200).json({ id });
+  } catch (error) {
+    return next(error);
+  }
+}
+async function delete_transactions(request, response, next) {
+  try {
+    const id = request.params.id;
+
+    const success = await usersService.delete_transactions(transaction_id);
+    if (!success) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to delete transaction'
+      );
+    }
+
+    return response.status(200).json({ id });
+  } catch (error) {
+    return next(error);
+  }
+}
 
 module.exports = {
   create_account,
