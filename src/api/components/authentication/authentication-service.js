@@ -22,27 +22,43 @@ async function checkLoginCredentials(email, password) {
   // Because we always check the password (see above comment), we define the
   // login attempt as successful when the `user` is found (by email) and
   // the password matches.
+  let loginResult = null;
   if (user && passwordChecked) {
+    // Reset failed login attempts if login is successful
     await authenticationRepository.reset_failed_login_attempts(email);
 
-    return {
+    loginResult = {
       email: user.email,
       name: user.name,
       user_id: user.id,
       token: generateToken(user.email, user.id),
     };
   } else {
+    // Update failed login attempts
     await authenticationRepository.update_failed_login_attempts(email);
+    // Get the number of failed login attempts
     const attempts =
       await authenticationRepository.get_failed_login_attempts(email);
+
+    // Check if attempts exceed the limit
     if (attempts >= 5) {
+      // If exceeded, throw an error indicating too many failed attempts
       throw errorResponder(
         errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS,
         'Too many failed login attempts, try again in 30 minutes'
       );
+    } else {
+      throw errorResponder(
+        errorTypes.INVALID_CREDENTIALS_ERROR,
+        `Wrong email or password, fail to login, attempt : ${attempts + 1}`
+      );
     }
-    return null;
   }
+
+  if (loginResult) {
+    message = `User ${user.email} berhasil login`;
+  }
+  return message;
 }
 
 module.exports = {

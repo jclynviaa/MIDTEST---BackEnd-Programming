@@ -19,16 +19,7 @@ async function login(request, response, next) {
       password
     );
 
-    if (!loginSuccess) {
-      const attempts =
-        await authenticationRepository.get_failed_login_attempts(email);
-      const message = `Wrong email or password, failed to login, attempt: ${attempts}`;
-      throw errorResponder(errorTypes.INVALID_CREDENTIALS, message);
-    }
-
-    return response
-      .status(200)
-      .json({ message: `User ${email} berhasil login` });
+    return response.status(200).json({ loginSuccess });
   } catch (error) {
     return next(error);
   }

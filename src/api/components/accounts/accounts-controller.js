@@ -13,21 +13,11 @@ async function login(request, response, next) {
 
   try {
     // Check login credentials
-    const loginSuccess = await authenticationServices.checkLoginCredentials(
+    const loginSuccess = await accountsServiceServices.checkLoginCredentials(
       email,
       pin
     );
-
-    if (!loginSuccess) {
-      const attempts =
-        await authenticationRepository.get_failed_login_attempts(email);
-      const message = `Wrong email or password, failed to login, attempt: ${attempts}`;
-      throw errorResponder(errorTypes.INVALID_CREDENTIALS, message);
-    }
-
-    return response
-      .status(200)
-      .json({ message: `User ${email} berhasil login` });
+    return response.status(200).json({ loginSuccess });
   } catch (error) {
     return next(error);
   }
