@@ -1,6 +1,4 @@
-const { Account, User } = require('../../../models');
-const { account_number } = require('../../../models/accounts-schema');
-const accountsValidator = require('./accounts-validator');
+const { Account } = require('../../../models');
 
 /**
  * Create new Account
@@ -59,56 +57,52 @@ async function get_customers() {
  * @returns
  */
 async function update_account(
-  id,
   account_number,
   customer_name,
   customer_id,
   customer_contact,
   initial_deposit
 ) {
-  return Account.updateOne(
-    {
-      _id: id,
+  return Account.updateOne({
+    $set: {
+      account_number,
+      customer_name,
+      customer_id,
+      customer_contact,
+      initial_deposit,
     },
-    {
-      $set: {
-        account_number,
-        customer_name,
-        customer_id,
-        customer_contact,
-        initial_deposit,
-      },
-    }
-  );
+  });
 }
 
 /**
  *
- * @param {*} id
+ * @param {*} account_number
  * @param {*} transaction_amount
  * @param {*} description
  * @returns
  */
-async function update_transactions(id, transaction_amount, description) {
-  return Account.updateOne(
-    {
-      _id: id,
+async function update_transaction(
+  account_number,
+  transaction_id,
+  transaction_amount,
+  description
+) {
+  return Account.updateOne({
+    $set: {
+      account_number,
+      transaction_id,
+      transaction_amount,
+      description,
     },
-    {
-      $set: {
-        transaction_amount,
-        description,
-      },
-    }
-  );
+  });
 }
 
 async function delete_account(account_number) {
   return User.deleteOne({ account_number });
 }
 
-async function delete_transactions(id) {
-  return User.deleteOne({ _id: id });
+async function delete_transactions(transaction_id) {
+  return User.deleteOne({ transaction_id });
 }
 
 module.exports = {
@@ -116,7 +110,7 @@ module.exports = {
   get_account_by_number,
   get_customers,
   update_account,
-  update_transactions,
+  update_transaction,
   delete_account,
   delete_transactions,
 };
