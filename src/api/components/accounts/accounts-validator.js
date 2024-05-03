@@ -13,7 +13,7 @@ module.exports = {
   create_account: {
     body: {
       customer_name: joi.string().min(1).max(100).required().label('Name'),
-      customer_id: joi.number().min(10).max(10).id().required().label('Id'),
+      customer_id: joi.number().min(10).max(10).required().label('Id'),
       customer_address: joi.string().required().label('Address'),
       customer_contact: joi
         .number()

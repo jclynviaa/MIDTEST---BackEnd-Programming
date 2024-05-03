@@ -18,29 +18,28 @@ async function checkLoginCredentials(email, pin) {
   // to handle the case when the user login is invalid. We still want to
   // check the password anyway, so that it prevents the attacker in
   // guessing login credentials by looking at the processing time.
-  const userPassword = user ? user.password : '<RANDOM_PASSWORD_FILLER>';
+  const userPassword = account ? account.password : '<RANDOM_PASSWORD_FILLER>';
   const passwordChecked = await passwordMatched(pin, userPassword);
 
   // Because we always check the password (see above comment), we define the
   // login attempt as successful when the `user` is found (by email) and
   // the password matches.
   let loginResult = null;
-  if (user && passwordChecked) {
+  if (account && passwordChecked) {
     // Reset failed login attempts if login is successful
-    await authenticationRepository.reset_failed_login_attempts(email);
+    await accountsRepository.reset_failed_login_attempts(email);
 
     loginResult = {
-      email: user.email,
-      name: user.name,
-      user_id: user.id,
+      email: account.email,
+      name: account.name,
+      user_id: account.id,
       token: generateToken(account.email, account.id),
     };
   } else {
     // Update failed login attempts
-    await authenticationRepository.update_failed_login_attempts(email);
+    await accountsRepository.update_failed_login_attempts(email);
     // Get the number of failed login attempts
-    const attempts =
-      await authenticationRepository.get_failed_login_attempts(email);
+    const attempts = await accountsRepository.get_failed_login_attempts(email);
 
     // Check if attempts exceed the limit
     if (attempts >= 5) {
@@ -62,14 +61,6 @@ async function checkLoginCredentials(email, pin) {
   }
   return message;
 }
-
-module.exports = {
-  checkLoginCredentials,
-};
-
-module.exports = {
-  checkLoginCredentials,
-};
 
 /**
  *
