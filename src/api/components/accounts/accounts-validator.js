@@ -7,14 +7,15 @@ module.exports = {
     body: {
       customer_name: joi.string().min(1).max(100).required().label('Name'),
       customer_id: joi.number().min(10).max(10).id().required().label('Id'),
+      customer_address: joi.string().required().label('Address'),
       customer_contact: joi
         .number()
         .min(12)
         .max(12)
         .required()
         .label('Contact Number'),
+      customer_birthdate: joi.string().required().label('Birth Date'),
       initial_deposit: joi.number().required().label('Initial Deposit'),
-      account_number: joi.number().required().label('Account Number'),
       pin: joiPassword
         .string()
         .min(5)
@@ -36,7 +37,14 @@ module.exports = {
         .max(12)
         .required()
         .label('Contact Number'),
-      initial_deposit: joi.number().required().label('Initial Deposit'),
+      customer_address: joi.string().required().label('Address'),
+      customer_contact: joi
+        .number()
+        .min(12)
+        .max(12)
+        .required()
+        .label('Contact Number'),
+      customer_birthdate: joi.string().required().label('Birth Date'),
     },
   },
 

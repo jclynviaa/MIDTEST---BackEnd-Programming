@@ -5,8 +5,9 @@ const { initial_deposit } = require('../../../models/accounts-schema');
  *
  * @param {*} customer_name
  * @param {*} customer_id
+ * @param {*} customer_address
+ * @param {*} customer_birthdate
  * @param {*} customer_contact
- * @param {*} account_number
  * @param {*} initial_deposit
  * @param {*} pin
  * @returns
@@ -14,8 +15,9 @@ const { initial_deposit } = require('../../../models/accounts-schema');
 async function create_account(
   customer_name,
   customer_id,
+  customer_address,
+  customer_birthdate,
   customer_contact,
-  account_number,
   initial_deposit,
   pin
 ) {
@@ -23,8 +25,9 @@ async function create_account(
     await accountsRepository.create_account({
       customer_name,
       customer_id,
+      customer_address,
+      customer_birthdate,
       customer_contact,
-      account_number,
       account_balance: initial_deposit,
       pin,
     });
@@ -36,12 +39,11 @@ async function create_account(
 
 /**
  *
- * @param {*} account_number
+ * @param {*} id
  * @returns
  */
-async function get_account_by_number(account_number) {
-  const account =
-    await accountsRepository.get_account_by_number(account_number);
+async function get_account_by_number(id) {
+  const account = await accountsRepository.get_account_by_number(id);
 
   if (!account) {
     return null;
@@ -74,7 +76,6 @@ async function get_customers() {
 
 /**
  *
- * @param {*} account_number
  * @param {*} customer_name
  * @param {*} customer_id
  * @param {*} customer_contact
@@ -82,14 +83,12 @@ async function get_customers() {
  * @returns
  */
 async function update_account(
-  account_number,
   customer_name,
   customer_id,
   customer_contact,
   initial_deposit
 ) {
-  const account =
-    await accountsRepository.get_account_by_number(account_number);
+  const account = await accountsRepository.get_account_by_number(id);
 
   if (!account) {
     return null;
@@ -97,7 +96,9 @@ async function update_account(
 
   try {
     await Account.updateOne(
-      { account_number },
+      {
+        id,
+      },
       {
         $set: {
           customer_name,
@@ -115,18 +116,13 @@ async function update_account(
 
 /**
  *
- * @param {*} account_number
+ * @param {*} id
  * @param {*} transaction_amount
  * @param {*} description
  * @returns
  */
-async function update_transaction(
-  account_number,
-  transaction_amount,
-  description
-) {
-  const account =
-    await accountsRepository.get_account_by_number(account_number);
+async function update_transaction(transaction_amount, description) {
+  const account = await accountsRepository.get_account_by_number(id);
 
   if (!account) {
     return null;
@@ -148,11 +144,11 @@ async function update_transaction(
 
 /**
  *
- * @param {*} account_number
+ * @param {*} id
  * @returns
  */
-async function delete_account(account_number) {
-  return Account.deleteOne({ account_number });
+async function delete_account(id) {
+  return Account.deleteOne({ _id: id });
 }
 
 /**

@@ -6,7 +6,7 @@ async function create_account(request, response, next) {
     const customer_name = request.body.create_account;
     const customer_id = request.body.customer_id;
     const customer_contact = request.body.customer_contact;
-    const account_number = request.body.account_number;
+
     const password = request.body.password;
 
     const success = await accountsService.create_account(

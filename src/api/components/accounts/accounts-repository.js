@@ -1,28 +1,31 @@
 const { Account } = require('../../../models');
 
 /**
- * Create new Account
- * @param {*} customer_name - Customer's Name
- * @param {*} customer_id - Customer' id
- * @param {*} customer_contact - Customer's Contact Number
- * @param {*} account_number - Account Number
- * @param {*} initial_deposit - Deposit
- * @param {*} pin - Pin
+ *
+ * @param {*} customer_name
+ * @param {*} customer_id
+ * @param {*} customer_address
+ * @param {*} customer_birthdate
+ * @param {*} customer_contact
+ * @param {*} initial_deposit
+ * @param {*} pin
  * @returns
  */
 async function create_account(
   customer_name,
   customer_id,
+  customer_address,
+  customer_birthdate,
   customer_contact,
-  account_number,
   initial_deposit,
   pin
 ) {
   return Account.create({
     customer_name,
     customer_id,
+    customer_address,
+    customer_birthdate,
     customer_contact,
-    account_number,
     initial_deposit,
     pin,
   });
@@ -30,16 +33,16 @@ async function create_account(
 
 /**
  * Get account by account number
- * @param {*} account_number - Account Number
+ * @param {*} id
  * @returns
  */
-async function get_account_by_number(account_number) {
-  return Account.findOne({ account_number });
+async function get_account_by_number(id) {
+  return Account.findOne({ _id: id });
 }
 
 /**
  * Get list of customers
- * @param {*} account_number - Account Number
+ * @param {*}
  * @returns
  */
 async function get_customers() {
@@ -49,7 +52,6 @@ async function get_customers() {
 /**
  *
  * @param {*} id
- * @param {*} account_number
  * @param {*} customer_name
  * @param {*} customer_id
  * @param {*} customer_contact
@@ -57,48 +59,61 @@ async function get_customers() {
  * @returns
  */
 async function update_account(
-  account_number,
+  id,
   customer_name,
   customer_id,
+  customer_address,
+  customer_birthdate,
   customer_contact,
   initial_deposit
 ) {
-  return Account.updateOne({
-    $set: {
-      account_number,
-      customer_name,
-      customer_id,
-      customer_contact,
-      initial_deposit,
+  return Account.updateOne(
+    {
+      id,
     },
-  });
+    {
+      $set: {
+        account_number,
+        customer_name,
+        customer_id,
+        customer_address,
+        customer_birthdate,
+        customer_contact,
+        initial_deposit,
+      },
+    }
+  );
 }
 
 /**
  *
- * @param {*} account_number
+ * @param {*} id
  * @param {*} transaction_amount
  * @param {*} description
  * @returns
  */
 async function update_transaction(
-  account_number,
+  id,
   transaction_id,
   transaction_amount,
   description
 ) {
-  return Account.updateOne({
-    $set: {
-      account_number,
-      transaction_id,
-      transaction_amount,
-      description,
+  return Account.updateOne(
+    {
+      id,
     },
-  });
+    {
+      $set: {
+        transaction_id,
+        transaction_amount,
+        description,
+      },
+    }
+  );
 }
 
-async function delete_account(account_number) {
-  return User.deleteOne({ account_number });
+async function delete_account(id) {
+  return User.deleteOne({ _id: id });
 }
 
 async function delete_transactions(transaction_id) {
