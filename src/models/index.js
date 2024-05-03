@@ -4,7 +4,7 @@ const logger = require('../core/logger')('app');
 
 const usersSchema = require('./users-schema');
 const timeoutSchema = require('./timeout-schema');
-const accountsSchema = require('./account-schema');
+const accountsSchema = require('./accounts-schema');
 
 mongoose.connect(`${config.database.connection}/${config.database.name}`, {
   useNewUrlParser: true,

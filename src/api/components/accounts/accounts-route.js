@@ -1,8 +1,8 @@
 const express = require('express');
 const authenticationMiddleware = require('../../middlewares/authentication-middleware');
 const { celebrate } = require('celebrate');
-const usersValidator = require('../users/users-validator');
 const accountsValidator = require('./accounts-validator');
+const accountsController = require('./accounts-controller');
 
 const route = express.Router();
 
@@ -13,26 +13,26 @@ module.exports = (app) => {
   // login
   route.post(
     '/login',
-    celebrate(authenticationValidators.login),
-    authenticationControllers.login
+    celebrate(accountsValidator.login),
+    accountsController.login
   );
 
   // create account
   route.post(
     '/',
     authenticationMiddleware,
-    celebrate(usersValidator.create_account),
-    accountsControllers.create_account
+    celebrate(accountsValidatorValidator.create_account),
+    accountsController.create_account
   );
 
   // get list of customers
-  route.get('/', authenticationMiddleware, accountsControllers.get_customers);
+  route.get('/', authenticationMiddleware, accountsController.get_customers);
 
   // get account balance
   route.get(
     '/:id',
     authenticationMiddleware,
-    accountsControllers.get_account_by_number
+    accountsController.get_account_by_number
   );
 
   // update account
@@ -40,7 +40,7 @@ module.exports = (app) => {
     '/:id',
     authenticationMiddleware,
     celebrate(accountsValidator.update_account),
-    accountsControllers.update_account
+    accountsController.update_account
   );
 
   // update transaction
@@ -55,13 +55,13 @@ module.exports = (app) => {
   route.delete(
     '/:id',
     authenticationMiddleware,
-    accountsControllers.delete_account
+    accountsController.delete_account
   );
 
   // delete transaction
   route.delete(
     '/:transaction_id',
     authenticationMiddleware,
-    accountsControllers.delete_transactions
+    accountsController.delete_transactions
   );
 };
