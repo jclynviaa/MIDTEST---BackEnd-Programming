@@ -43,7 +43,6 @@ module.exports = {
 
   update_transaction: {
     body: {
-      transaction_id: joi.string().required().label('Transaction Id'),
       transaction_amount: joi.number().required().label('Transaction Amount'),
       description: joi
         .string()

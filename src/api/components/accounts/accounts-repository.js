@@ -85,24 +85,17 @@ async function update_account(
 /**
  *
  * @param {*} id
- * @param {*} transaction_id
  * @param {*} transaction_amount
  * @param {*} description
  * @returns
  */
-async function update_transactions(
-  id,
-  transaction_id,
-  transaction_amount,
-  description
-) {
+async function update_transactions(id, transaction_amount, description) {
   return Account.updateOne(
     {
       _id: id,
     },
     {
       $set: {
-        transaction_id,
         transaction_amount,
         description,
       },
@@ -114,8 +107,8 @@ async function delete_account(account_number) {
   return User.deleteOne({ account_number });
 }
 
-async function delete_transactions(transaction_id) {
-  return User.deleteOne({ transaction_id });
+async function delete_transactions(id) {
+  return User.deleteOne({ _id: id });
 }
 
 module.exports = {
