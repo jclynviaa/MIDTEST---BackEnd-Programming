@@ -85,38 +85,26 @@ async function update_account(
 /**
  *
  * @param {*} id
+ * @param {*} transaction_id
  * @param {*} transaction_amount
  * @param {*} description
  * @returns
  */
-async function update_transactions(id, transaction_amount, description) {
+async function update_transactions(
+  id,
+  transaction_id,
+  transaction_amount,
+  description
+) {
   return Account.updateOne(
     {
       _id: id,
     },
     {
       $set: {
+        transaction_id,
         transaction_amount,
         description,
-      },
-    }
-  );
-}
-
-/**
- *
- * @param {*} id
- * @param {*} account_number
- * @returns
- */
-async function update_balance(id, account_number) {
-  return Account.updateOne(
-    {
-      _id: id,
-    },
-    {
-      $set: {
-        account_number,
       },
     }
   );
@@ -136,7 +124,6 @@ module.exports = {
   get_customers,
   update_account,
   update_transactions,
-  update_balance,
   delete_account,
   delete_transactions,
 };

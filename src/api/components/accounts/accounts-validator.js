@@ -40,4 +40,18 @@ module.exports = {
       initial_deposit: joi.number().required().label('Initial Deposit'),
     },
   },
+
+  update_transaction: {
+    body: {
+      transaction_id: joi.string().required().label('Transaction Id'),
+      transaction_amount: joi.number().required().label('Transaction Amount'),
+      description: joi
+        .string()
+        .min(1)
+        .max(15)
+        .maxOfSpecialCharacters(0)
+        .required()
+        .label('Description'),
+    },
+  },
 };
