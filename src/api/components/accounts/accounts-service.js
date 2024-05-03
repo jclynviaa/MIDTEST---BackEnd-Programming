@@ -131,15 +131,18 @@ async function update_account(
  * @param {*} description
  * @returns
  */
-async function update_transaction(transaction_amount, description) {
+async function update_transaction(id, transaction_amount, description) {
   const account = await accountsRepository.get_account_by_number(id);
 
   if (!account) {
     return null;
   }
 
-  const new_balance = account.account_balance - transaction_amount;
+  if (transaction_amount < 10000) {
+    return 'Minimum transaction is Rp10.000';
+  }
 
+  const new_balance = account.account_balance - transaction_amount;
   if (new_balance < 0) {
     return 'Your balance is not enough';
   }

@@ -94,7 +94,31 @@ async function update_account(request, response, next) {
   }
 }
 
-async function update_transaction(request, response, next) {}
+async function update_transaction(request, response, next) {
+  try {
+    const id = request.params.id;
+    const transaction_amount = request.params.transaction_amount;
+    const description = request.params.description;
+
+    const success = await accountsService.update_transaction(
+      id,
+      transaction_amount,
+      description
+    );
+    if (!success) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to do transaction'
+      );
+    }
+
+    const message = 'Successful transaction';
+    return response.status(200).json({ message });
+  } catch (error) {
+    return nect(error);
+  }
+}
+
 async function delete_account(request, response, next) {}
 async function delete_transactions(request, response, next) {}
 
