@@ -1,5 +1,4 @@
 const { Account } = require('../../../models');
-const { hashPassword } = require('../../../utils/password');
 
 /**
  *
@@ -19,9 +18,6 @@ async function create_account(
   initial_deposit,
   password
 ) {
-  // hash password
-  const hashedPassword = await hashPassword(password);
-
   try {
     await accountsRepository.create_account(
       customer_name,
