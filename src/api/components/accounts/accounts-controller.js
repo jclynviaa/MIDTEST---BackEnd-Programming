@@ -5,17 +5,19 @@ async function create_account(request, response, next) {
   try {
     const customer_name = request.body.create_account;
     const customer_id = request.body.customer_id;
+    const customer_address = request.body.customer_address;
+    const customer_birthdate = request.body.customer_birthdate;
     const customer_contact = request.body.customer_contact;
-
-    const password = request.body.password;
+    const pin = request.body.pin;
 
     const success = await accountsService.create_account(
       customer_name,
       customer_id,
+      customer_address,
+      customer_birthdate,
       customer_contact,
-      account_number,
       initial_deposit,
-      password
+      pin
     );
     if (!success) {
       throw errorResponder(
@@ -24,8 +26,84 @@ async function create_account(request, response, next) {
       );
     }
 
-    return response.status(200).json({ customer_name, account_number });
+    return response.status(200).json({ id, customer_name });
   } catch (error) {
     return next(error);
   }
 }
+
+async function get_account_by_number(request, response, next) {
+  try {
+    const account = await accountsService.get_account_by_number(
+      request.params.id
+    );
+
+    if (!account) {
+      throw errorResponder(errorTypes.UNPROCESSABLE_ENTITY, 'Unknown Account');
+    }
+
+    return response.status(200).json(account);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function get_customers(request, response, next) {
+  try {
+    const customers = await accountsService.get_customers();
+
+    if (!customers) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to get List Customers'
+      );
+    }
+    return response.status(200).json(customers);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function update_account(request, response, next) {
+  try {
+    const customer_name = request.params.customer_name;
+    const customer_id = request.params.customer_id;
+    const customer_address = request.params.customer_address;
+    const customer_birthdate = request.params.customer_birthdate;
+    const customer_contact = request.params.customer_contact;
+    const initial_deposit = request.params.initial_deposit;
+
+    const success = await accountsService.update_account(
+      customer_name,
+      customer_id,
+      customer_address,
+      customer_birthdate,
+      customer_contact,
+      initial_deposit
+    );
+    if (!success) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to update user'
+      );
+    }
+
+    return response.status(200).json({ id });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function update_transaction(request, response, next) {}
+async function delete_account(request, response, next) {}
+async function delete_transactions(request, response, next) {}
+
+module.exports = {
+  create_account,
+  get_account_by_number,
+  get_customers,
+  update_account,
+  update_transaction,
+  delete_account,
+  delete_transactions,
+};

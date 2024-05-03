@@ -21,6 +21,10 @@ async function create_account(
   initial_deposit,
   pin
 ) {
+  if (initial_deposit < 100000) {
+    return 'Failed to make a transaction, the minimum transaction is Rp100.000';
+  }
+
   try {
     await accountsRepository.create_account({
       customer_name,
@@ -78,6 +82,8 @@ async function get_customers() {
  *
  * @param {*} customer_name
  * @param {*} customer_id
+ * @param {*} customer_address
+ * @param {*} customer_birthdate
  * @param {*} customer_contact
  * @param {*} initial_deposit
  * @returns
@@ -85,6 +91,8 @@ async function get_customers() {
 async function update_account(
   customer_name,
   customer_id,
+  customer_address,
+  customer_birthdate,
   customer_contact,
   initial_deposit
 ) {
@@ -103,6 +111,8 @@ async function update_account(
         $set: {
           customer_name,
           customer_id,
+          customer_address,
+          customer_birthdate,
           customer_contact,
           initial_deposit,
         },
