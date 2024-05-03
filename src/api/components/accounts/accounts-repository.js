@@ -41,6 +41,15 @@ async function get_account_by_number(id) {
 }
 
 /**
+ *
+ * @param {*} customer_id
+ * @returns
+ */
+async function get_account_by_id(customer_id) {
+  return Account.findOne({ customer_id });
+}
+
+/**
  * Get list of customers
  * @param {*}
  * @returns

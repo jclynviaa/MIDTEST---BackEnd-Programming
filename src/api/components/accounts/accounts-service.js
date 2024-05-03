@@ -173,6 +173,26 @@ async function delete_transactions(transaction_id) {
   return Account.findOne({ transaction_id });
 }
 
+async function customer_id_is_taken(customer_id) {
+  const account = await accountsRepository.get_account_by_id(customer_id);
+
+  if (account) {
+    return true;
+  }
+
+  return false;
+}
+
+async function change_pin(pin) {
+  const account = await accountsRepository.update_account(pin);
+
+  if (account) {
+    return true;
+  }
+
+  return false;
+}
+
 module.exports = {
   create_account,
   get_account_by_number,
@@ -181,4 +201,6 @@ module.exports = {
   update_transaction,
   delete_account,
   delete_transactions,
+  customer_id_is_taken,
+  change_pin,
 };
