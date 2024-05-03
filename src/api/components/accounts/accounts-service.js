@@ -1,4 +1,5 @@
 const { Account } = require('../../../models');
+const { initial_deposit } = require('../../../models/accounts-schema');
 
 /**
  *
@@ -19,14 +20,14 @@ async function create_account(
   password
 ) {
   try {
-    await accountsRepository.create_account(
+    await accountsRepository.create_account({
       customer_name,
       customer_id,
       customer_contact,
       account_number,
-      initial_deposit,
-      password
-    );
+      account_balance: initial_deposit,
+      password,
+    });
   } catch (err) {
     return null;
   }
@@ -95,12 +96,16 @@ async function update_account(
   }
 
   try {
-    await accountsRepository.update_account(
-      account_number,
-      customer_name,
-      customer_id,
-      customer_contact,
-      initial_deposit
+    await Account.updateOne(
+      { account_number },
+      {
+        $set: {
+          customer_name,
+          customer_id,
+          customer_contact,
+          initial_deposit,
+        },
+      }
     );
   } catch (err) {
     return null;
@@ -120,19 +125,21 @@ async function update_transaction(
   transaction_amount,
   description
 ) {
-  const transaction =
+  const account =
     await accountsRepository.get_account_by_number(account_number);
 
-  if (!transaction) {
+  if (!account) {
     return null;
   }
 
+  const new_balance = account.account_balance - transaction_amount;
+
+  if (new_balance < 0) {
+    return 'Your balance is not enough';
+  }
+
   try {
-    await accountsRepository.update_transaction(
-      account_number,
-      transaction_amount,
-      description
-    );
+    await account.save();
   } catch (err) {
     return null;
   }
