@@ -1,51 +1,71 @@
 const { Account } = require('../../../models');
 const { initial_deposit } = require('../../../models/accounts-schema');
-const authenticationRepository = require('./authentication-repository');
 const { generateToken } = require('../../../utils/session-token');
 const { passwordMatched } = require('../../../utils/password');
 const { errorTypes, errorResponder } = require('../../../core/errors');
+const accountsRepository = require('./accounts-repository');
 
 /**
  * Check username and password for login.
  * @param {string} email - Email
- * @param {string} password - Password
+ * @param {string} pin - Password
  * @returns {object} An object containing, among others, the JWT token if the email and password are matched. Otherwise returns null.
  */
 async function checkLoginCredentials(email, pin) {
-  const user = await authenticationRepository.get_account_by_email(email);
+  const account = await accountsRepository.get_user_by_email(email);
 
   // We define default user password here as '<RANDOM_PASSWORD_FILTER>'
   // to handle the case when the user login is invalid. We still want to
   // check the password anyway, so that it prevents the attacker in
   // guessing login credentials by looking at the processing time.
-  const accountPin = user ? user.password : '<RANDOM_PASSWORD_FILLER>';
-  const pinChecked = await passwordMatched(pin, accountPin);
+  const userPassword = user ? user.password : '<RANDOM_PASSWORD_FILLER>';
+  const passwordChecked = await passwordMatched(pin, userPassword);
 
   // Because we always check the password (see above comment), we define the
   // login attempt as successful when the `user` is found (by email) and
   // the password matches.
+  let loginResult = null;
   if (user && passwordChecked) {
+    // Reset failed login attempts if login is successful
     await authenticationRepository.reset_failed_login_attempts(email);
 
-    return {
+    loginResult = {
       email: user.email,
       name: user.name,
       user_id: user.id,
-      token: generateToken(user.email, user.id),
+      token: generateToken(account.email, account.id),
     };
   } else {
+    // Update failed login attempts
     await authenticationRepository.update_failed_login_attempts(email);
+    // Get the number of failed login attempts
     const attempts =
       await authenticationRepository.get_failed_login_attempts(email);
+
+    // Check if attempts exceed the limit
     if (attempts >= 5) {
+      // If exceeded, throw an error indicating too many failed attempts
       throw errorResponder(
         errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS,
         'Too many failed login attempts, try again in 30 minutes'
       );
+    } else {
+      throw errorResponder(
+        errorTypes.INVALID_CREDENTIALS_ERROR,
+        `Wrong email or pin, fail to login, attempt : ${attempts + 1}`
+      );
     }
-    return null;
   }
+
+  if (loginResult) {
+    message = `User ${user.email} berhasil login`;
+  }
+  return message;
 }
+
+module.exports = {
+  checkLoginCredentials,
+};
 
 module.exports = {
   checkLoginCredentials,

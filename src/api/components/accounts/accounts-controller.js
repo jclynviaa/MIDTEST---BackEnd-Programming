@@ -13,10 +13,11 @@ async function login(request, response, next) {
 
   try {
     // Check login credentials
-    const loginSuccess = await accountsServiceServices.checkLoginCredentials(
+    const loginSuccess = await accountsService.checkLoginCredentials(
       email,
       pin
     );
+
     return response.status(200).json({ loginSuccess });
   } catch (error) {
     return next(error);
