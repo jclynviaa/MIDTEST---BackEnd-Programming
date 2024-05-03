@@ -15,15 +15,14 @@ module.exports = {
         .label('Contact Number'),
       initial_deposit: joi.number().required().label('Initial Deposit'),
       account_number: joi.number().required().label('Account Number'),
-      password: joiPassword
+      pin: joiPassword
         .string()
         .min(5)
         .max(10)
         .minOfLowercase(1)
         .minOfUppercase(1)
-        .minOfSpecialCharacters(1)
         .required()
-        .label('Password'),
+        .label('Pin'),
     },
   },
 

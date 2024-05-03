@@ -7,7 +7,7 @@ const { Account } = require('../../../models');
  * @param {*} customer_contact - Customer's Contact Number
  * @param {*} account_number - Account Number
  * @param {*} initial_deposit - Deposit
- * @param {*} password - Hashed password
+ * @param {*} pin - Pin
  * @returns
  */
 async function create_account(
@@ -16,7 +16,7 @@ async function create_account(
   customer_contact,
   account_number,
   initial_deposit,
-  password
+  pin
 ) {
   return Account.create({
     customer_name,
@@ -24,7 +24,7 @@ async function create_account(
     customer_contact,
     account_number,
     initial_deposit,
-    password,
+    pin,
   });
 }
 

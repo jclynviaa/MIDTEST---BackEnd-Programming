@@ -8,7 +8,7 @@ const { initial_deposit } = require('../../../models/accounts-schema');
  * @param {*} customer_contact
  * @param {*} account_number
  * @param {*} initial_deposit
- * @param {*} password
+ * @param {*} pin
  * @returns
  */
 async function create_account(
@@ -17,7 +17,7 @@ async function create_account(
   customer_contact,
   account_number,
   initial_deposit,
-  password
+  pin
 ) {
   try {
     await accountsRepository.create_account({
@@ -26,7 +26,7 @@ async function create_account(
       customer_contact,
       account_number,
       account_balance: initial_deposit,
-      password,
+      pin,
     });
   } catch (err) {
     return null;
