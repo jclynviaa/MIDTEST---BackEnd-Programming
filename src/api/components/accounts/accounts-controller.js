@@ -9,12 +9,12 @@ const { errorResponder, errorTypes } = require('../../../core/errors');
  * @returns {object} Response object or pass an error to the next route
  */
 async function login(request, response, next) {
-  const { customer_name, pin } = request.body;
+  const { email, pin } = request.body;
 
   try {
     // Check login credentials
     const loginSuccess = await authenticationServices.checkLoginCredentials(
-      customer_name,
+      email,
       pin
     );
 

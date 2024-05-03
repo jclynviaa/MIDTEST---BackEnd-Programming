@@ -8,6 +8,14 @@ const route = express.Router();
 
 module.exports = (app) => {
   app.use('/accounts', route);
+  app.use('/authentication', route);
+
+  // login
+  route.post(
+    '/login',
+    celebrate(authenticationValidators.login),
+    authenticationControllers.login
+  );
 
   // create account
   route.post(

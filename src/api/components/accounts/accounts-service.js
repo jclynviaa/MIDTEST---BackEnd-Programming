@@ -1,5 +1,55 @@
 const { Account } = require('../../../models');
 const { initial_deposit } = require('../../../models/accounts-schema');
+const authenticationRepository = require('./authentication-repository');
+const { generateToken } = require('../../../utils/session-token');
+const { passwordMatched } = require('../../../utils/password');
+const { errorTypes, errorResponder } = require('../../../core/errors');
+
+/**
+ * Check username and password for login.
+ * @param {string} email - Email
+ * @param {string} password - Password
+ * @returns {object} An object containing, among others, the JWT token if the email and password are matched. Otherwise returns null.
+ */
+async function checkLoginCredentials(email, pin) {
+  const user = await authenticationRepository.get_account_by_email(email);
+
+  // We define default user password here as '<RANDOM_PASSWORD_FILTER>'
+  // to handle the case when the user login is invalid. We still want to
+  // check the password anyway, so that it prevents the attacker in
+  // guessing login credentials by looking at the processing time.
+  const accountPin = user ? user.password : '<RANDOM_PASSWORD_FILLER>';
+  const pinChecked = await passwordMatched(pin, accountPin);
+
+  // Because we always check the password (see above comment), we define the
+  // login attempt as successful when the `user` is found (by email) and
+  // the password matches.
+  if (user && passwordChecked) {
+    await authenticationRepository.reset_failed_login_attempts(email);
+
+    return {
+      email: user.email,
+      name: user.name,
+      user_id: user.id,
+      token: generateToken(user.email, user.id),
+    };
+  } else {
+    await authenticationRepository.update_failed_login_attempts(email);
+    const attempts =
+      await authenticationRepository.get_failed_login_attempts(email);
+    if (attempts >= 5) {
+      throw errorResponder(
+        errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS,
+        'Too many failed login attempts, try again in 30 minutes'
+      );
+    }
+    return null;
+  }
+}
+
+module.exports = {
+  checkLoginCredentials,
+};
 
 /**
  *
@@ -203,8 +253,14 @@ async function customer_id_is_taken(customer_id) {
   return false;
 }
 
-async function change_pin(pin) {
-  const account = await accountsRepository.update_account(pin);
+/**
+ *
+ * @param {*} id
+ * @param {*} pin
+ * @returns
+ */
+async function change_pin(id, pin) {
+  const account = await accountsRepository.get_customer(id, pin);
 
   if (account) {
     return true;
