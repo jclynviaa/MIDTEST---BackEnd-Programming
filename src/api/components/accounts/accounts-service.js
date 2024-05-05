@@ -1,5 +1,3 @@
-const { Account } = require('../../../models');
-const { initial_deposit } = require('../../../models/accounts-schema');
 const { generateToken } = require('../../../utils/session-token');
 const { passwordMatched } = require('../../../utils/password');
 const { errorTypes, errorResponder } = require('../../../core/errors');
@@ -235,7 +233,7 @@ async function delete_account(id) {
  * @returns
  */
 async function email_is_registered(email) {
-  const user = await usersRepository.get_account_by_email(email);
+  const account = await accountsRepository.get_account_by_email(email);
 
   if (user) {
     return true;

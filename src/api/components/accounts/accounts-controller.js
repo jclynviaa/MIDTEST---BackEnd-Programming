@@ -148,7 +148,7 @@ async function delete_account(request, response, next) {
   try {
     const id = request.params.id;
 
-    const success = await usersService.delete_account(id);
+    const success = await accountsService.delete_account(id);
     if (!success) {
       throw errorResponder(
         errorTypes.UNPROCESSABLE_ENTITY,

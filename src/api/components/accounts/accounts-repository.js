@@ -1,14 +1,14 @@
 const { Account } = require('../../../models');
-const { User, Timeout } = require('../../../models');
+const { Timeout } = require('../../../models');
 const login_timeout = 30 * 60 * 1000;
 
 /**
- * Get user by email for login information
+ * Get account by email for login information
  * @param {string} email - Email
  * @returns {Promise}
  */
 async function get_account_by_email(email) {
-  return User.findOne({ email });
+  return Account.findOne({ email });
 }
 
 /**
@@ -116,7 +116,7 @@ async function get_account_by_email(email) {
  * @returns
  */
 async function get_customers() {
-  return customers;
+  return Account.find();
 }
 
 /**
@@ -191,7 +191,7 @@ async function update_transaction(id, transaction_amount, description) {
  * @returns
  */
 async function delete_account(id) {
-  return User.deleteOne({ _id: id });
+  return Account.deleteOne({ _id: id });
 }
 
 module.exports = {
