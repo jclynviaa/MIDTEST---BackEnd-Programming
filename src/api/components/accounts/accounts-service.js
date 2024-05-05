@@ -77,8 +77,8 @@ async function create_account(
   customer_address,
   customer_birthdate,
   customer_contact,
-  email,
   initial_deposit,
+  email,
   pin
 ) {
   if (initial_deposit < 100000) {

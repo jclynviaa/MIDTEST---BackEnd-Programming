@@ -72,6 +72,7 @@ async function create_account(
   customer_birthdate,
   customer_contact,
   initial_deposit,
+  email,
   pin
 ) {
   return Account.create({
@@ -81,6 +82,7 @@ async function create_account(
     customer_birthdate,
     customer_contact,
     initial_deposit,
+    email,
     pin,
   });
 }

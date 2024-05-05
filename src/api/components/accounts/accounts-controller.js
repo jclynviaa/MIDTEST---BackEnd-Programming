@@ -31,6 +31,7 @@ async function create_account(request, response, next) {
     const customer_address = request.body.customer_address;
     const customer_birthdate = request.body.customer_birthdate;
     const customer_contact = request.body.customer_contact;
+    const email = request.body.email;
     const pin = request.body.pin;
 
     const success = await accountsService.create_account(
@@ -39,6 +40,7 @@ async function create_account(request, response, next) {
       customer_address,
       customer_birthdate,
       customer_contact,
+      email,
       initial_deposit,
       pin
     );
