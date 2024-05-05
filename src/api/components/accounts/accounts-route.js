@@ -1,5 +1,5 @@
 const express = require('express');
-const authenticationMiddleware = require('../../middlewares/authentication-middleware');
+const accountAuthentication = require('../../middlewares/account-authentication');
 const { celebrate } = require('celebrate');
 const accountsValidator = require('./accounts-validator');
 const accountsController = require('./accounts-controller');
@@ -19,33 +19,29 @@ module.exports = (app) => {
   // create account
   route.post(
     '/',
-    authenticationMiddleware,
+    accountAuthentication,
     celebrate(accountsValidator.create_account),
     accountsController.create_account
   );
 
   // get list of customers
-  route.get('/', authenticationMiddleware, accountsController.get_customers);
+  route.get('/', accountAuthentication, accountsController.get_customers);
 
   // get account balance
-  route.get(
-    '/:id',
-    authenticationMiddleware,
-    accountsController.get_account_by_number
-  );
+  route.get('/:id', accountAuthentication, accountsController.get_customer);
 
   // update account
   route.put(
     '/:id',
-    authenticationMiddleware,
+    accountAuthentication,
     celebrate(accountsValidator.update_account),
     accountsController.update_account
   );
 
   // update transaction
   route.put(
-    '/:transaction_id',
-    authenticationMiddleware,
+    '/:id',
+    accountAuthentication,
     celebrate(accountsValidator.update_transaction),
     accountsController.update_transaction
   );
@@ -53,7 +49,15 @@ module.exports = (app) => {
   // delete account
   route.delete(
     '/:id',
-    authenticationMiddleware,
+    accountAuthentication,
     accountsController.delete_account
+  );
+
+  // change pin
+  route.post(
+    '/:id/change-pin',
+    accountAuthentication,
+    celebrate(accountsValidator.change_pin),
+    accountsController.change_pin
   );
 };
