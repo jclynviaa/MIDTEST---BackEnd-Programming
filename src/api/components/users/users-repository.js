@@ -6,7 +6,7 @@ const { User } = require('../../../models');
  */
 async function getUsers(page_n, page_s, search, sort) {
   let query = {};
-  var search1 = search.split(':');
+  var search1 = search.split(':'); // split : mendapatkan jenis pencarian dan nilai pencariannya
 
   const sortBy = {};
   sort = sort.split(':');
@@ -14,7 +14,7 @@ async function getUsers(page_n, page_s, search, sort) {
 
   switch (search1[0]) {
     case 'name':
-      query = { name: { $regex: search1[1] } };
+      query = { name: { $regex: search1[1] } }; // $regex untuk mencocokkan nilai pencarian
       break;
 
     case 'email':
@@ -26,7 +26,7 @@ async function getUsers(page_n, page_s, search, sort) {
       break;
   }
 
-  const users = await User.find(query)
+  const users = await User.find(query) // data user yang cocok dengan query tersebut diambil dari database menggunakan metode find()
     .sort(sortBy)
     .skip(page_n * page_s)
     .limit(page_s);
@@ -51,7 +51,7 @@ async function getUserCount(page_n, page_s, search) {
       query = {};
       break;
   }
-  const count = await User.countDocuments(query);
+  const count = await User.countDocuments(query); // jumlah data pengguna yang cocok dengan query pencarian dihitung menggunakan fungsi countDocuments()
   return count;
 }
 

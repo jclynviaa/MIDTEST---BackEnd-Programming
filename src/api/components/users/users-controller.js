@@ -12,10 +12,10 @@ const { errorResponder, errorTypes } = require('../../../core/errors');
 async function getUsers(request, response, next) {
   try {
     // pagination, sorting, search
-    const page_n = parseInt(request.query.page_number) - 1 || 0;
-    const page_s = parseInt(request.query.page_size) || 10;
+    const page_n = parseInt(request.query.page_number) - 1 || 0; // mengurangkan nilai page_number dengan 1 dan page_n diatur sebagai 0
+    const page_s = parseInt(request.query.page_size) || 10; // setiap halaman akan berisi 10 item secara default
     const search = request.query.search || '';
-    const sort = request.query.sort || 'email:asc';
+    const sort = request.query.sort || 'email:asc'; // data akan diurutkan berdasarkan kolom email secara menaik (ascendant)
 
     // data users
     const users = await usersService.getUsers(page_n, page_s, search, sort);
