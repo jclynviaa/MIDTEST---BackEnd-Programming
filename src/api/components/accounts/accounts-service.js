@@ -262,7 +262,7 @@ async function customer_id_is_taken(customer_id) {
  */
 async function check_pin(id, pin) {
   const customer = await accountsRepository.get_customer(id);
-  return passwordMatched(pin, account.password);
+  return passwordMatched(pin, customer.password);
 }
 
 /**
@@ -290,5 +290,6 @@ module.exports = {
   delete_account,
   customer_id_is_taken,
   email_is_registered,
+  check_pin,
   change_pin,
 };

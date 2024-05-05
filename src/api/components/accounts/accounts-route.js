@@ -8,7 +8,6 @@ const route = express.Router();
 
 module.exports = (app) => {
   app.use('/accounts', route);
-  app.use('/authentication', route);
 
   // login
   route.post(
@@ -48,7 +47,7 @@ module.exports = (app) => {
     '/:transaction_id',
     authenticationMiddleware,
     celebrate(accountsValidator.update_transaction),
-    accountsControllers.update_transaction
+    accountsController.update_transaction
   );
 
   // delete account
@@ -56,12 +55,5 @@ module.exports = (app) => {
     '/:id',
     authenticationMiddleware,
     accountsController.delete_account
-  );
-
-  // delete transaction
-  route.delete(
-    '/:transaction_id',
-    authenticationMiddleware,
-    accountsController.delete_transactions
   );
 };
