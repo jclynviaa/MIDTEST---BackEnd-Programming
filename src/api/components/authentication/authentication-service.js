@@ -23,6 +23,7 @@ async function checkLoginCredentials(email, password) {
   // login attempt as successful when the `user` is found (by email) and
   // the password matches.
   let loginResult = null;
+  let message = ''; // Inisialisasi message di sini
   if (user && passwordChecked) {
     // Reset failed login attempts if login is successful
     await authenticationRepository.reset_failed_login_attempts(email);
@@ -58,7 +59,7 @@ async function checkLoginCredentials(email, password) {
   if (loginResult) {
     message = `User ${user.email} berhasil login`;
   }
-  return message;
+  return { message, ...loginResult };
 }
 
 module.exports = {

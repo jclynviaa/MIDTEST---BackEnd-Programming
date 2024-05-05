@@ -59,7 +59,7 @@ async function checkLoginCredentials(email, pin) {
   if (loginResult) {
     message = `Account ${account.email} berhasil login`;
   }
-  return message;
+  return { message, ...loginResult };
 }
 
 module.exports = {
