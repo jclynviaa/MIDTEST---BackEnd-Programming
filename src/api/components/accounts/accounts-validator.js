@@ -59,9 +59,22 @@ module.exports = {
 
   update_transaction: {
     body: {
-      transaction_id: joi.string().required().label('Transaction Id'),
       transaction_amount: joi.number().required().label('Transaction Amount'),
       description: joi.string().min(1).max(15).required().label('Description'),
+    },
+  },
+
+  change_pin: {
+    body: {
+      pin_old: joi.string().required().label('Old pin'),
+      pin_new: joiPassword
+        .string()
+        .min(5)
+        .max(10)
+        .minOfLowercase(1)
+        .minOfUppercase(1)
+        .required()
+        .label('New pin'),
     },
   },
 };

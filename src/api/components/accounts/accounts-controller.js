@@ -140,7 +140,7 @@ async function update_transaction(request, response, next) {
     const message = 'Successful transaction';
     return response.status(200).json({ message });
   } catch (error) {
-    return nect(error);
+    return next(error);
   }
 }
 

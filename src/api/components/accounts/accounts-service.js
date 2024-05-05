@@ -255,6 +255,17 @@ async function customer_id_is_taken(customer_id) {
 }
 
 /**
+ * Check whether the password is correct
+ * @param {*} id
+ * @param {*} pin
+ * @returns
+ */
+async function check_pin(id, pin) {
+  const customer = await accountsRepository.get_customer(id);
+  return passwordMatched(pin, account.password);
+}
+
+/**
  *
  * @param {*} id
  * @param {*} pin
