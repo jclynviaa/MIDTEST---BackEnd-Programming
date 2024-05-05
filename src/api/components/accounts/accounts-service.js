@@ -235,7 +235,7 @@ async function delete_account(id) {
 async function email_is_registered(email) {
   const account = await accountsRepository.get_account_by_email(email);
 
-  if (user) {
+  if (account) {
     return true;
   }
 
@@ -280,6 +280,7 @@ async function change_pin(id, pin) {
 }
 
 module.exports = {
+  checkLoginCredentials,
   create_account,
   get_customer,
   get_customers,
