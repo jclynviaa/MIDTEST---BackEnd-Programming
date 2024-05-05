@@ -9,13 +9,6 @@ const route = express.Router();
 module.exports = (app) => {
   app.use('/accounts', route);
 
-  // login
-  route.post(
-    '/login',
-    celebrate(accountsValidator.login),
-    accountsController.login
-  );
-
   // create account
   route.post(
     '/',
