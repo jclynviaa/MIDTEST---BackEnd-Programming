@@ -55,39 +55,6 @@ async function reset_failed_login_attempts(email) {
 }
 
 /**
- *
- * @param {*} customer_name
- * @param {*} customer_id
- * @param {*} customer_address
- * @param {*} customer_birthdate
- * @param {*} customer_contact
- * @param {*} initial_deposit
- * @param {*} pin
- * @returns
- */
-async function create_account(
-  customer_name,
-  customer_id,
-  customer_address,
-  customer_birthdate,
-  customer_contact,
-  initial_deposit,
-  email,
-  pin
-) {
-  return Account.create({
-    customer_name,
-    customer_id,
-    customer_address,
-    customer_birthdate,
-    customer_contact,
-    initial_deposit,
-    email,
-    pin,
-  });
-}
-
-/**
  * Get user by customer_id to prevent duplicate customer_id
  * @param {*} customer_id
  * @returns
@@ -124,6 +91,39 @@ async function get_customer(id) {
 }
 
 /**
+ *
+ * @param {*} customer_name
+ * @param {*} customer_id
+ * @param {*} customer_address
+ * @param {*} customer_birthdate
+ * @param {*} customer_contact
+ * @param {*} initial_deposit
+ * @param {*} pin
+ * @returns
+ */
+async function create_account(
+  customer_id,
+  customer_name,
+  customer_address,
+  customer_birthdate,
+  customer_contact,
+  initial_deposit,
+  email,
+  pin
+) {
+  return Account.create({
+    customer_id,
+    customer_name,
+    customer_address,
+    customer_birthdate,
+    customer_contact,
+    initial_deposit,
+    email,
+    pin,
+  });
+}
+
+/**
  * Update existing account
  * @param {*} id
  * @param {*} customer_name
@@ -134,8 +134,8 @@ async function get_customer(id) {
  */
 async function update_account(
   id,
-  customer_name,
   customer_id,
+  customer_name,
   customer_address,
   customer_birthdate,
   customer_contact,
@@ -148,8 +148,8 @@ async function update_account(
     {
       $set: {
         account_number,
-        customer_name,
         customer_id,
+        customer_name,
         customer_address,
         customer_birthdate,
         customer_contact,
@@ -190,7 +190,6 @@ async function delete_account(id) {
 }
 
 module.exports = {
-  get_account_by_email,
   update_failed_login_attempts,
   get_failed_login_attempts,
   reset_failed_login_attempts,

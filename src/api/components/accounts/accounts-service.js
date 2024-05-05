@@ -64,6 +64,42 @@ async function checkLoginCredentials(email, pin) {
 
 /**
  *
+ * @returns
+ */
+async function get_customers() {
+  const customers = await accountsRepository.get_customers();
+  const data = [];
+  for (let i = 0; i < customers.length; i += 1) {
+    const account = customers[i];
+    data.push({
+      id: account.id,
+      customer_name: account.customer_name,
+    });
+  }
+
+  return data;
+}
+
+/**
+ *
+ * @param {*} id
+ * @returns
+ */
+async function get_customer(id) {
+  const account = await accountsRepository.get_customer(id);
+
+  if (!account) {
+    return null;
+  }
+
+  return {
+    customer_name: account.customer_name,
+    account_balance: account.account_balance,
+  };
+}
+
+/**
+ *
  * @param {*} customer_name
  * @param {*} customer_id
  * @param {*} customer_address
@@ -89,8 +125,8 @@ async function create_account(
 
   try {
     await accountsRepository.create_account({
-      customer_name,
       customer_id,
+      customer_name,
       customer_address,
       customer_birthdate,
       customer_contact,
@@ -106,42 +142,6 @@ async function create_account(
 
 /**
  *
- * @param {*} id
- * @returns
- */
-async function get_customer(id) {
-  const account = await accountsRepository.get_customer(id);
-
-  if (!account) {
-    return null;
-  }
-
-  return {
-    customer_name: account.customer_name,
-    account_balance: account.account_balance,
-  };
-}
-
-/**
- *
- * @returns
- */
-async function get_customers() {
-  const customers = await accountsRepository.get_customers();
-  const data = [];
-  for (let i = 0; i < customers.length; i += 1) {
-    const account = customers[i];
-    data.push({
-      id: account.id,
-      customer_name: account.customer_name,
-    });
-  }
-
-  return data;
-}
-
-/**
- *
  * @param {*} customer_name
  * @param {*} customer_id
  * @param {*} customer_address
@@ -152,8 +152,8 @@ async function get_customers() {
  * @returns
  */
 async function update_account(
-  customer_name,
   customer_id,
+  customer_name,
   customer_address,
   customer_birthdate,
   customer_contact,
@@ -173,8 +173,8 @@ async function update_account(
       },
       {
         $set: {
-          customer_name,
           customer_id,
+          customer_name,
           customer_address,
           customer_birthdate,
           customer_contact,

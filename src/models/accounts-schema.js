@@ -1,6 +1,6 @@
 const accountsSchema = {
-  customer_name: String,
   customer_id: String,
+  customer_name: String,
   customer_address: String,
   customer_birthdate: String,
   customer_contact: String,

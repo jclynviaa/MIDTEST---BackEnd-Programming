@@ -12,22 +12,37 @@ module.exports = {
 
   create_account: {
     body: {
+      customer_id: joi.string().min(1).max(100).required().label('Id'),
       customer_name: joi.string().min(1).max(100).required().label('Name'),
-      customer_id: joi.string().min(1).max(10).required().label('Id'),
-      customer_address: joi.string().required().label('Address'),
+      customer_address: joi
+        .string()
+        .min(1)
+        .max(100)
+        .required()
+        .label('Address'),
       customer_contact: joi
         .string()
         .min(1)
-        .max(12)
+        .max(100)
         .required()
         .label('Contact Number'),
-      customer_birthdate: joi.string().required().label('Birth Date'),
-      initial_deposit: joi.string().required().label('Initial Deposit'),
-      email: joi.string().email().required().label('Email'),
+      customer_birthdate: joi
+        .string()
+        .min(1)
+        .max(100)
+        .required()
+        .label('Birth Date'),
+      initial_deposit: joi
+        .string()
+        .min(1)
+        .max(100)
+        .required()
+        .label('Initial Deposit'),
+      email: joi.string().email().min(1).max(100).required().label('Email'),
       pin: joiPassword
         .string()
-        .min(5)
-        .max(10)
+        .min(1)
+        .max(100)
         .minOfLowercase(1)
         .minOfUppercase(1)
         .required()
@@ -37,30 +52,40 @@ module.exports = {
 
   update_account: {
     body: {
+      customer_id: joi.string().min(1).max(100).required().label('Id'),
       customer_name: joi.string().min(1).max(100).required().label('Name'),
-      customer_id: joi.string().min(10).max(10).id().required().label('Id'),
+      customer_address: joi
+        .string()
+        .min(1)
+        .max(100)
+        .required()
+        .label('Address'),
       customer_contact: joi
         .string()
-        .min(12)
-        .max(12)
+        .min(1)
+        .max(100)
         .required()
         .label('Contact Number'),
-      customer_address: joi.string().required().label('Address'),
-      customer_contact: joi
+      customer_birthdate: joi
         .string()
-        .min(12)
-        .max(12)
+        .min(1)
+        .max(100)
         .required()
-        .label('Contact Number'),
-      customer_birthdate: joi.string().required().label('Birth Date'),
-      email: joi.string().email().required().label('Email'),
+        .label('Birth Date'),
+      initial_deposit: joi
+        .string()
+        .min(1)
+        .max(100)
+        .required()
+        .label('Initial Deposit'),
+      email: joi.string().email().min(1).max(100).required().label('Email'),
     },
   },
 
   update_transaction: {
     body: {
       transaction_amount: joi.string().required().label('Transaction Amount'),
-      description: joi.string().min(1).max(15).required().label('Description'),
+      description: joi.string().min(1).max(100).required().label('Description'),
     },
   },
 
@@ -69,8 +94,8 @@ module.exports = {
       pin_old: joi.string().required().label('Old pin'),
       pin_new: joiPassword
         .string()
-        .min(5)
-        .max(10)
+        .min(1)
+        .max(100)
         .minOfLowercase(1)
         .minOfUppercase(1)
         .required()
