@@ -162,6 +162,35 @@ async function delete_account(request, response, next) {
   }
 }
 
+async function change_pin(request, response, next) {
+  try {
+    if (
+      !(await accountsService.check_pin(
+        request.params.id,
+        request.body.pin_old
+      ))
+    ) {
+      throw errorResponder(errorTypes.INVALID_CREDENTIALS, 'Wrong Pin');
+    }
+
+    const changeSuccess = await accountsService.change_pin(
+      request.params.id,
+      request.body.pin_new
+    );
+
+    if (!changeSuccess) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to change pin'
+      );
+    }
+
+    return response.status(200).json({ id: request.params.id });
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   create_account,
   get_customer,
@@ -169,4 +198,5 @@ module.exports = {
   update_account,
   update_transaction,
   delete_account,
+  change_pin,
 };
