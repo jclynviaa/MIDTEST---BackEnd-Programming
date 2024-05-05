@@ -18,7 +18,7 @@ async function get_account_by_email(email) {
 async function update_failed_login_attempts(email) {
   const timeout = await Timeout.findOneAndUpdate(
     { email },
-    { $inc: { attempts: 1 }, last_attempt: Date.now() },
+    { $inc: { attempts: 0 }, last_attempt: Date.now() },
     { upsert: true, new: true }
   );
 
