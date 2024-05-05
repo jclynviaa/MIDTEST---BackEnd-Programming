@@ -2,29 +2,6 @@ const { generateToken } = require('../../../utils/session-token');
 const { passwordMatched } = require('../../../utils/password');
 const { errorTypes, errorResponder } = require('../../../core/errors');
 const accountsRepository = require('./accounts-repository');
-const accountsService = require('./authentication-service');
-
-async function login(request, response, next) {
-  const { email, pin } = request.body;
-
-  try {
-    const loginResult = await accountsService.checkLoginCredentials(email, pin);
-
-    return response.status(200).json(loginResult);
-  } catch (error) {
-    return next(error);
-  }
-}
-
-module.exports = {
-  login,
-};
-
-// authentication-service
-const { generateToken } = require('../../../utils/session-token');
-const { passwordMatched } = require('../../../utils/password');
-const { errorTypes, errorResponder } = require('../../../core/errors');
-const accountsRepository = require('./accounts-repository');
 
 async function checkLoginCredentials(email, pin) {
   const account = await accountsRepository.get_account_by_email(email);
@@ -66,10 +43,6 @@ async function checkLoginCredentials(email, pin) {
 
   return { message, ...loginResult };
 }
-
-module.exports = {
-  checkLoginCredentials,
-};
 
 module.exports = {
   checkLoginCredentials,

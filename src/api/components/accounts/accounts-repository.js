@@ -35,7 +35,7 @@ async function get_customer(id) {
 }
 
 /**
- *
+ * Create account
  * @param {*} customer_id
  * @param {*} customer_name
  * @param {*} customer_address
@@ -71,8 +71,10 @@ async function create_account(
 /**
  * Update existing account
  * @param {*} id
- * @param {*} customer_name
  * @param {*} customer_id
+ * @param {*} customer_name
+ * @param {*} customer_address
+ * @param {*} customer_birthdate
  * @param {*} customer_contact
  * @param {*} initial_deposit
  * @returns

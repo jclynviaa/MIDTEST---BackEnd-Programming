@@ -38,7 +38,7 @@ async function get_customer(id) {
 }
 
 /**
- *
+ * Create account
  * @param {*} customer_name
  * @param {*} customer_id
  * @param {*} customer_address
@@ -58,9 +58,9 @@ async function create_account(
   email,
   pin
 ) {
-  //if (initial_deposit < 100000) {
-  //return 'Failed to make a transaction, the minimum transaction is Rp100.000';
-  //}
+  if (initial_deposit < 100000) {
+    return 'Failed to make a transaction, the minimum transaction is Rp100.000';
+  }
 
   try {
     await accountsRepository.create_account({
@@ -80,7 +80,7 @@ async function create_account(
 }
 
 /**
- *
+ * Update existing account
  * @param {*} customer_name
  * @param {*} customer_id
  * @param {*} customer_address
@@ -129,7 +129,7 @@ async function update_account(
 }
 
 /**
- *
+ * Update transaction
  * @param {*} id
  * @param {*} transaction_amount
  * @param {*} description
@@ -160,7 +160,7 @@ async function update_transaction(id, transaction_amount, description) {
 }
 
 /**
- *
+ * Delete existing account
  * @param {*} id
  * @returns
  */
@@ -169,7 +169,7 @@ async function delete_account(id) {
 }
 
 /**
- *
+ * Check if there is email duplicate
  * @param {*} email
  * @returns
  */
@@ -183,6 +183,11 @@ async function email_is_registered(email) {
   return false;
 }
 
+/**
+ * Check if there is customer_id duplicate
+ * @param {*} customer_id
+ * @returns
+ */
 async function customer_id_is_taken(customer_id) {
   const account = await accountsRepository.get_account_by_id(customer_id);
 
@@ -205,7 +210,7 @@ async function check_pin(id, pin) {
 }
 
 /**
- *
+ * Change existing pin
  * @param {*} id
  * @param {*} pin
  * @returns
