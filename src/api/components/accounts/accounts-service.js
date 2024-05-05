@@ -10,7 +10,7 @@ const accountsRepository = require('./accounts-repository');
  * @returns {object} An object containing, among others, the JWT token if the email and password are matched. Otherwise returns null.
  */
 async function checkLoginCredentials(email, pin) {
-  const account = await accountsRepository.get_user_by_email(email);
+  const account = await accountsRepository.get_account_by_email(email);
 
   // We define default user password here as '<RANDOM_PASSWORD_FILTER>'
   // to handle the case when the user login is invalid. We still want to

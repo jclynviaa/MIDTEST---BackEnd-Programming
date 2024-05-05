@@ -24,10 +24,6 @@ async function login(request, response, next) {
   }
 }
 
-module.exports = {
-  login,
-};
-
 async function create_account(request, response, next) {
   try {
     const customer_name = request.body.create_account;
@@ -192,6 +188,7 @@ async function change_pin(request, response, next) {
 }
 
 module.exports = {
+  login,
   create_account,
   get_customer,
   get_customers,

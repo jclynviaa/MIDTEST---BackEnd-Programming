@@ -1,6 +1,6 @@
 const express = require('express');
 const accountAuthentication = require('../../middlewares/account-authentication');
-const { celebrate } = require('celebrate');
+const celebrate = require('../../../core/celebrate-wrappers');
 const accountsValidator = require('./accounts-validator');
 const accountsController = require('./accounts-controller');
 
@@ -39,7 +39,7 @@ module.exports = (app) => {
   );
 
   // update transaction
-  route.put(
+  route.patch(
     '/:id',
     accountAuthentication,
     celebrate(accountsValidator.update_transaction),

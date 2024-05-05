@@ -54,13 +54,6 @@ async function reset_failed_login_attempts(email) {
   );
 }
 
-module.exports = {
-  get_account_by_email,
-  update_failed_login_attempts,
-  get_failed_login_attempts,
-  reset_failed_login_attempts,
-};
-
 /**
  *
  * @param {*} customer_name
@@ -195,6 +188,10 @@ async function delete_account(id) {
 }
 
 module.exports = {
+  get_account_by_email,
+  update_failed_login_attempts,
+  get_failed_login_attempts,
+  reset_failed_login_attempts,
   create_account,
   get_customer,
   get_customers,
