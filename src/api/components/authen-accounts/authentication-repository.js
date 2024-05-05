@@ -18,11 +18,15 @@ async function get_account_by_email(email) {
 async function update_failed_login_attempts(email) {
   const timeout = await Timeout.findOneAndUpdate(
     { email },
+    // jika timeout untuk alamat email tersebut tidak ditemukan,
+    // akan dibuat baru dengan jumlah percobaan login yang gagal diinisialisasi dengan 0
     { $inc: { attempts: 0 }, last_attempt: Date.now() },
     { upsert: true, new: true }
   );
 
   if (timeout && Date.now() - timeout.last_attempt > login_timeout) {
+    // jika sudah melewati limit,
+    // maka akan menjalankan fungsi reset_failed_login_attempts
     await reset_failed_login_attempts(email);
   }
 }
@@ -39,7 +43,7 @@ async function get_failed_login_attempts(email) {
     await reset_failed_login_attempts(email);
     return 0;
   }
-  return timeout ? timeout.attempts : 0;
+  return timeout ? timeout.attempts : 0; // jika tidak ada timeout yang ditemukan, maka nilai 0 akan dikembalikan
 }
 
 /**

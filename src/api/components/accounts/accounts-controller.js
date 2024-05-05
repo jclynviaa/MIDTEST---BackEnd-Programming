@@ -1,6 +1,13 @@
 const accountsService = require('./accounts-service');
 const { errorResponder, errorTypes } = require('../../../core/errors');
 
+/**
+ *
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ * @returns
+ */
 async function get_customer(request, response, next) {
   try {
     const account = await accountsService.get_customer(request.params.id);
@@ -15,6 +22,13 @@ async function get_customer(request, response, next) {
   }
 }
 
+/**
+ *
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ * @returns
+ */
 async function get_customers(request, response, next) {
   try {
     const customers = await accountsService.get_customers();
@@ -31,6 +45,13 @@ async function get_customers(request, response, next) {
   }
 }
 
+/**
+ *
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ * @returns
+ */
 async function create_account(request, response, next) {
   try {
     const customer_id = request.body.customer_id;
@@ -75,6 +96,13 @@ async function create_account(request, response, next) {
   }
 }
 
+/**
+ *
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ * @returns
+ */
 async function update_account(request, response, next) {
   try {
     const customer_id = request.params.customer_id;
@@ -105,6 +133,13 @@ async function update_account(request, response, next) {
   }
 }
 
+/**
+ *
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ * @returns
+ */
 async function update_transaction(request, response, next) {
   try {
     const id = request.params.id;
@@ -130,6 +165,13 @@ async function update_transaction(request, response, next) {
   }
 }
 
+/**
+ *
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ * @returns
+ */
 async function delete_account(request, response, next) {
   try {
     const id = request.params.id;
@@ -148,6 +190,13 @@ async function delete_account(request, response, next) {
   }
 }
 
+/**
+ *
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ * @returns
+ */
 async function change_pin(request, response, next) {
   try {
     if (
