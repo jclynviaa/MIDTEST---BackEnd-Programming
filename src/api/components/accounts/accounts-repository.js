@@ -135,9 +135,6 @@ async function delete_account(id) {
 }
 
 module.exports = {
-  update_failed_login_attempts,
-  get_failed_login_attempts,
-  reset_failed_login_attempts,
   create_account,
   get_customer,
   get_customers,
