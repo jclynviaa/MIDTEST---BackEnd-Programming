@@ -4,7 +4,7 @@ const passportJWT = require('passport-jwt');
 const config = require('../../core/config');
 const { Account } = require('../../models');
 
-// Authenticate user based on the JWT token
+// Authenticate account based on the JWT token
 passport.use(
   'account',
   new passportJWT.Strategy(

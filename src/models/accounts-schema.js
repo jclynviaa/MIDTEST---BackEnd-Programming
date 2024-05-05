@@ -1,9 +1,12 @@
 const accountsSchema = {
   customer_name: String,
-  customer_id: String,
-  account_number: Number,
+  customer_id: Number,
+  customer_address: String,
+  customer_birthdate: String,
+  customer_contact: Number,
   initial_deposit: Number,
-  password: String,
+  email: String,
+  pin: String,
 };
 
 module.exports = accountsSchema;

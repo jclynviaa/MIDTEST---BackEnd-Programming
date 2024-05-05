@@ -16,8 +16,10 @@ async function checkLoginCredentials(email, pin) {
   // to handle the case when the user login is invalid. We still want to
   // check the password anyway, so that it prevents the attacker in
   // guessing login credentials by looking at the processing time.
-  const userPassword = account ? account.password : '<RANDOM_PASSWORD_FILLER>';
-  const passwordChecked = await passwordMatched(pin, userPassword);
+  const accountPassword = account
+    ? account.password
+    : '<RANDOM_PASSWORD_FILLER>';
+  const passwordChecked = await passwordMatched(pin, accountPassword);
 
   // Because we always check the password (see above comment), we define the
   // login attempt as successful when the `user` is found (by email) and
@@ -29,7 +31,7 @@ async function checkLoginCredentials(email, pin) {
 
     loginResult = {
       email: account.email,
-      name: account.name,
+      name: account.customer_name,
       account_id: account.id,
       token: generateToken(account.email, account.id),
     };
