@@ -152,7 +152,7 @@ async function delete_account(request, response, next) {
     if (!success) {
       throw errorResponder(
         errorTypes.UNPROCESSABLE_ENTITY,
-        'Failed to delete user'
+        'Failed to delete account'
       );
     }
 

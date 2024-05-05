@@ -30,7 +30,7 @@ async function checkLoginCredentials(email, pin) {
     loginResult = {
       email: account.email,
       name: account.name,
-      user_id: account.id,
+      account_id: account.id,
       token: generateToken(account.email, account.id),
     };
   } else {
@@ -55,7 +55,7 @@ async function checkLoginCredentials(email, pin) {
   }
 
   if (loginResult) {
-    message = `User ${user.email} berhasil login`;
+    message = `Account ${account.email} berhasil login`;
   }
   return message;
 }
