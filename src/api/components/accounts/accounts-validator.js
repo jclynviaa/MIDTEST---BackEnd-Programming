@@ -13,17 +13,17 @@ module.exports = {
   create_account: {
     body: {
       customer_name: joi.string().min(1).max(100).required().label('Name'),
-      customer_id: joi.number().min(10).max(10).required().label('Id'),
+      customer_id: joi.string().min(1).max(10).required().label('Id'),
       customer_address: joi.string().required().label('Address'),
       customer_contact: joi
-        .number()
-        .min(12)
+        .string()
+        .min(1)
         .max(12)
         .required()
         .label('Contact Number'),
       customer_birthdate: joi.string().required().label('Birth Date'),
+      initial_deposit: joi.string().required().label('Initial Deposit'),
       email: joi.string().email().required().label('Email'),
-      initial_deposit: joi.number().required().label('Initial Deposit'),
       pin: joiPassword
         .string()
         .min(5)
@@ -38,16 +38,16 @@ module.exports = {
   update_account: {
     body: {
       customer_name: joi.string().min(1).max(100).required().label('Name'),
-      customer_id: joi.number().min(10).max(10).id().required().label('Id'),
+      customer_id: joi.string().min(10).max(10).id().required().label('Id'),
       customer_contact: joi
-        .number()
+        .string()
         .min(12)
         .max(12)
         .required()
         .label('Contact Number'),
       customer_address: joi.string().required().label('Address'),
       customer_contact: joi
-        .number()
+        .string()
         .min(12)
         .max(12)
         .required()
@@ -59,7 +59,7 @@ module.exports = {
 
   update_transaction: {
     body: {
-      transaction_amount: joi.number().required().label('Transaction Amount'),
+      transaction_amount: joi.string().required().label('Transaction Amount'),
       description: joi.string().min(1).max(15).required().label('Description'),
     },
   },

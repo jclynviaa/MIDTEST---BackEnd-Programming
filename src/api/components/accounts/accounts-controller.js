@@ -26,11 +26,12 @@ async function login(request, response, next) {
 
 async function create_account(request, response, next) {
   try {
-    const customer_name = request.body.create_account;
+    const customer_name = request.body.customer_name;
     const customer_id = request.body.customer_id;
     const customer_address = request.body.customer_address;
     const customer_birthdate = request.body.customer_birthdate;
     const customer_contact = request.body.customer_contact;
+    const initial_deposit = request.body.initial_deposit;
     const email = request.body.email;
     const pin = request.body.pin;
 
@@ -40,10 +41,20 @@ async function create_account(request, response, next) {
       customer_address,
       customer_birthdate,
       customer_contact,
-      email,
       initial_deposit,
+      email,
       pin
     );
+
+    console.log(customer_name);
+    console.log(customer_id);
+    console.log(customer_address);
+    console.log(customer_birthdate);
+    console.log(customer_contact);
+    console.log(initial_deposit);
+    console.log(email);
+    console.log(pin);
+
     if (!success) {
       throw errorResponder(
         errorTypes.UNPROCESSABLE_ENTITY,

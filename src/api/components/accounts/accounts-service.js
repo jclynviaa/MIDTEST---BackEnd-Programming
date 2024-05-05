@@ -83,9 +83,9 @@ async function create_account(
   email,
   pin
 ) {
-  if (initial_deposit < 100000) {
-    return 'Failed to make a transaction, the minimum transaction is Rp100.000';
-  }
+  //if (initial_deposit < 100000) {
+  //return 'Failed to make a transaction, the minimum transaction is Rp100.000';
+  //}
 
   try {
     await accountsRepository.create_account({
@@ -94,8 +94,8 @@ async function create_account(
       customer_address,
       customer_birthdate,
       customer_contact,
+      initial_deposit,
       email,
-      account_balance: initial_deposit,
       pin,
     });
   } catch (err) {

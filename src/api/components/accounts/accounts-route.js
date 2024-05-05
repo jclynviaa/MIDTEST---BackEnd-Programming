@@ -19,7 +19,7 @@ module.exports = (app) => {
   // create account
   route.post(
     '/',
-    accountAuthentication,
+    //accountAuthentication,
     celebrate(accountsValidator.create_account),
     accountsController.create_account
   );
