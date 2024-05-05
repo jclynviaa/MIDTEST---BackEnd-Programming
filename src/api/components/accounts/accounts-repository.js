@@ -93,16 +93,7 @@ async function create_account(
 }
 
 /**
- * Get account by account number
- * @param {*} id
- * @returns
- */
-async function get_account_by_number(id) {
-  return Account.findOne({ _id: id });
-}
-
-/**
- *
+ * Get user by customer_id to prevent duplicate customer_id
  * @param {*} customer_id
  * @returns
  */
@@ -111,7 +102,7 @@ async function get_account_by_id(customer_id) {
 }
 
 /**
- *
+ * Get user by email to prevent duplicate email
  * @param {*} email
  * @returns
  */
@@ -134,11 +125,11 @@ async function get_customers() {
  * @returns {Promise}
  */
 async function get_customer(id) {
-  return User.findById(id);
+  return Account.findById(id);
 }
 
 /**
- *
+ * Update existing account
  * @param {*} id
  * @param {*} customer_name
  * @param {*} customer_id
@@ -174,25 +165,19 @@ async function update_account(
 }
 
 /**
- *
+ * Update transaction
  * @param {*} id
  * @param {*} transaction_amount
  * @param {*} description
  * @returns
  */
-async function update_transaction(
-  id,
-  transaction_id,
-  transaction_amount,
-  description
-) {
+async function update_transaction(id, transaction_amount, description) {
   return Account.updateOne(
     {
       id,
     },
     {
       $set: {
-        transaction_id,
         transaction_amount,
         description,
       },
@@ -200,17 +185,17 @@ async function update_transaction(
   );
 }
 
+/**
+ * Delete account
+ * @param {*} id
+ * @returns
+ */
 async function delete_account(id) {
   return User.deleteOne({ _id: id });
 }
 
-async function delete_transactions(transaction_id) {
-  return User.deleteOne({ transaction_id });
-}
-
 module.exports = {
   create_account,
-  get_account_by_number,
   get_customer,
   get_customers,
   get_account_by_email,
@@ -218,5 +203,4 @@ module.exports = {
   update_account,
   update_transaction,
   delete_account,
-  delete_transactions,
 };

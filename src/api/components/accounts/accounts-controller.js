@@ -59,11 +59,9 @@ async function create_account(request, response, next) {
   }
 }
 
-async function get_account_by_number(request, response, next) {
+async function get_customer(request, response, next) {
   try {
-    const account = await accountsService.get_account_by_number(
-      request.params.id
-    );
+    const account = await accountsService.get_customer(request.params.id);
 
     if (!account) {
       throw errorResponder(errorTypes.UNPROCESSABLE_ENTITY, 'Unknown Account');
@@ -163,30 +161,12 @@ async function delete_account(request, response, next) {
     return next(error);
   }
 }
-async function delete_transactions(request, response, next) {
-  try {
-    const id = request.params.id;
-
-    const success = await usersService.delete_transactions(transaction_id);
-    if (!success) {
-      throw errorResponder(
-        errorTypes.UNPROCESSABLE_ENTITY,
-        'Failed to delete transaction'
-      );
-    }
-
-    return response.status(200).json({ id });
-  } catch (error) {
-    return next(error);
-  }
-}
 
 module.exports = {
   create_account,
-  get_account_by_number,
+  get_customer,
   get_customers,
   update_account,
   update_transaction,
   delete_account,
-  delete_transactions,
 };

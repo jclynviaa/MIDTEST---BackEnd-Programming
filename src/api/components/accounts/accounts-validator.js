@@ -61,13 +61,7 @@ module.exports = {
     body: {
       transaction_id: joi.string().required().label('Transaction Id'),
       transaction_amount: joi.number().required().label('Transaction Amount'),
-      description: joi
-        .string()
-        .min(1)
-        .max(15)
-        .maxOfSpecialCharacters(0)
-        .required()
-        .label('Description'),
+      description: joi.string().min(1).max(15).required().label('Description'),
     },
   },
 };

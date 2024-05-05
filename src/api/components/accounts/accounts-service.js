@@ -109,8 +109,8 @@ async function create_account(
  * @param {*} id
  * @returns
  */
-async function get_account_by_number(id) {
-  const account = await accountsRepository.get_account_by_number(id);
+async function get_customer(id) {
+  const account = await accountsRepository.get_customer(id);
 
   if (!account) {
     return null;
@@ -133,7 +133,6 @@ async function get_customers() {
     const account = customers[i];
     data.push({
       id: account.id,
-      account_number: account.account_number,
       customer_name: account.customer_name,
     });
   }
@@ -232,15 +231,6 @@ async function delete_account(id) {
 
 /**
  *
- * @param {*} transaction_id
- * @returns
- */
-async function delete_transactions(transaction_id) {
-  return Account.findOne({ transaction_id });
-}
-
-/**
- *
  * @param {*} email
  * @returns
  */
@@ -282,12 +272,11 @@ async function change_pin(id, pin) {
 
 module.exports = {
   create_account,
-  get_account_by_number,
+  get_customer,
   get_customers,
   update_account,
   update_transaction,
   delete_account,
-  delete_transactions,
   customer_id_is_taken,
   email_is_registered,
   change_pin,
