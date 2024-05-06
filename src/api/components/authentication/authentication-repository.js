@@ -21,6 +21,8 @@ async function update_failed_login_attempts(email) {
     { upsert: true, new: true }
   );
 
+  // jika sudah melewati limit,
+  // maka akan menjalankan fungsi reset_failed_login_attempts
   if (timeout && Date.now() - timeout.last_attempt > login_timeout) {
     await reset_failed_login_attempts(email);
   }
@@ -34,6 +36,8 @@ async function update_failed_login_attempts(email) {
 
 async function get_failed_login_attempts(email) {
   const timeout = await Timeout.findOne({ email });
+  // jika sudah melewati limit,
+  // maka akan menjalankan fungsi reset_failed_login_attempts
   if (timeout && Date.now() - timeout.last_attempt > login_timeout) {
     await reset_failed_login_attempts(email);
     return 0;
@@ -48,7 +52,7 @@ async function get_failed_login_attempts(email) {
 async function reset_failed_login_attempts(email) {
   await Timeout.findOneAndUpdate(
     { email },
-    { attempts: 0, last_attempt: null },
+    { attempts: 0, last_attempt: null }, // jika sudah melewati limit waktu maka attempt akan diulang
     { upsert: true }
   );
 }

@@ -40,7 +40,7 @@ async function getUserCount(page_n, page_s, search) {
 
   switch (search1[0]) {
     case 'name':
-      query = { name: { $regex: search1[1] } };
+      query = { name: { $regex: search1[1] } }; // $regex untuk mencocokkan nilai pencarian
       break;
 
     case 'email':

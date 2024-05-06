@@ -2,7 +2,7 @@ const accountsService = require('./accounts-service');
 const { errorResponder, errorTypes } = require('../../../core/errors');
 
 /**
- *
+ * Get detail of an account
  * @param {*} request
  * @param {*} response
  * @param {*} next
@@ -23,7 +23,7 @@ async function get_customer(request, response, next) {
 }
 
 /**
- *
+ * Get list of customers
  * @param {*} request
  * @param {*} response
  * @param {*} next
@@ -46,7 +46,7 @@ async function get_customers(request, response, next) {
 }
 
 /**
- *
+ * Create account
  * @param {*} request
  * @param {*} response
  * @param {*} next
@@ -97,7 +97,7 @@ async function create_account(request, response, next) {
 }
 
 /**
- *
+ * Update account
  * @param {*} request
  * @param {*} response
  * @param {*} next
@@ -134,7 +134,7 @@ async function update_account(request, response, next) {
 }
 
 /**
- *
+ * Update transaction
  * @param {*} request
  * @param {*} response
  * @param {*} next
@@ -166,7 +166,7 @@ async function update_transaction(request, response, next) {
 }
 
 /**
- *
+ * Delete account
  * @param {*} request
  * @param {*} response
  * @param {*} next
@@ -191,7 +191,7 @@ async function delete_account(request, response, next) {
 }
 
 /**
- *
+ * Change existing pin
  * @param {*} request
  * @param {*} response
  * @param {*} next
@@ -199,6 +199,7 @@ async function delete_account(request, response, next) {
  */
 async function change_pin(request, response, next) {
   try {
+    // check if the pin is correct
     if (
       !(await accountsService.check_pin(
         request.params.id,

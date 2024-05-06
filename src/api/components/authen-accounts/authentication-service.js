@@ -29,6 +29,7 @@ async function checkLoginCredentials(email, pin) {
     const attempts = await accountsRepository.get_failed_login_attempts(email);
 
     if (attempts >= 5) {
+      // jika attempts diatas 5 maka akan mengeluarkan message diatas
       throw errorResponder(
         errorTypes.TOO_MANY_FAILED_LOGIN_ATTEMPTS,
         'Too many failed login attempts, try again in 30 minutes'
@@ -36,7 +37,7 @@ async function checkLoginCredentials(email, pin) {
     } else {
       throw errorResponder(
         errorTypes.INVALID_CREDENTIALS_ERROR,
-        `Wrong email or pin, fail to login, attempt : ${attempts + 1}`
+        `Wrong email or pin, fail to login, attempt : ${attempts + 1}` // indeks attempt di mulai dari 0 sehingga menggunakan +1
       );
     }
   }

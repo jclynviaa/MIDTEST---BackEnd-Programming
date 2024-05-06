@@ -20,7 +20,7 @@ async function get_customers() {
 }
 
 /**
- *
+ * Get customer by id
  * @param {*} id
  * @returns
  */
@@ -146,7 +146,10 @@ async function update_transaction(id, transaction_amount, description) {
     return 'Minimum transaction is Rp10.000';
   }
 
+  // fungsi untuk menghitung saldo jika melakukan transfer
   const new_balance = account.account_balance - transaction_amount;
+
+  // isi saldo harus mencukupi
   if (new_balance < 0) {
     return 'Your balance is not enough';
   }
